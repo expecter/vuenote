@@ -57,7 +57,7 @@
         ],
         navigations: [
           {
-            text: 'item1',
+            text: 'item122',
             index: '1'
           },
           {
