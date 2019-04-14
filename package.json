@@ -54,7 +54,10 @@
   },
   "dependencies": {
     "element-ui": "^2.6.1",
-    "vue": "^2.5.16"
+    "v-dialogs": "^2.0.3",
+    "vue": "^2.5.16",
+    "vue-cal": "^1.49.0",
+    "vuetify": "^1.5.11"
   },
   "devDependencies": {
     "ajv": "^6.5.0",

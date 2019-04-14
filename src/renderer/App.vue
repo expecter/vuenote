@@ -1,85 +1,76 @@
 <template>  
-  <el-container>
-    
-    <el-aside width="200px">
-      <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @select="handleSelect"
-      @close="handleClose">
-      <div v-for="item in navigations" :key="item.index">
-      <el-menu-item :index= item.index >
-        <i class="el-icon-menu"></i>
-        <span slot="title">{{item.text}}</span>
-      </el-menu-item>
-      </div>
-      </el-menu>
-    </el-aside>
-    <el-main>
-      <div id="app">    
-        <landing-page></landing-page>
-        <!-- <div>
-        <ul>
-          <li v-for="item in links"><a @click="$goRoute(item.route)">{{item.text}}</a></li>
-        </ul>
-        <router-view></router-view>
-      </div> -->
-      </div>
-    </el-main>
-  </el-container>
+  <div id="app">
+    <vue-cal 
+    :events="events" 
+    events-on-month-view="short"
+    :disable-views="['year']"
+    :on-event-click="onEventClick"
+    >
+    </vue-cal>
+    <v-dialog v-model="showDialog">
+      <v-card>
+        <v-card-title>
+          <v-icon>{{ selectedEvent.icon }}</v-icon>
+          <span>{{ selectedEvent.title }}</span>
+          <v-spacer/>
+          <strong>{{ selectedEvent.startDate }}</strong>
+        </v-card-title>
+        <v-card-text>
+          <p v-html="selectedEvent.contentFull"/>
+          <strong>Event details:</strong>
+          <ul>
+            <li>Event starts at: {{ selectedEvent.startTime }}</li>
+            <li>Event ends at: {{ selectedEvent.endTime }}</li>
+          </ul>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
+  
 </template>
 
 <script>
   // import LandingPage from '@/components/LandingPage/historyView'
-  import LandingPage from '@/components/pages/history'
-
+  // import LandingPage from '@/components/pages/history'
+  import VueCal from 'vue-cal'
+  import 'vue-cal/dist/vuecal.css'
   export default {
     name: 'electronui',
     components: {
-      LandingPage
+      // LandingPage,
+      VueCal
     },
     data () {
       return {
-        links: [
+        selectedEvent: {},
+        showDialog: false,
+        events: [
           {
-            text: '胡萝卜',
-            route: '/home'
+            start: '2019-04-15 10:35',
+            end: '2019-04-15 11:30',
+            title: 'Doctor appointment'
           },
           {
-            text: '大白菜',
-            route: '/page01'
-          },
-          {
-            text: '水蜜桃',
-            route: '/page02'
-          }
-        ],
-        navigations: [
-          {
-            text: 'item122',
-            index: '1'
-          },
-          {
-            text: 'item2',
-            index: '2'
-          },
-          {
-            text: 'item3',
-            index: '3'
+            start: '2018-11-19 18:30',
+            end: '2018-11-19 19:15',
+            title: 'Dentist appointment'
           }
         ]
       }
     },
+    created: function () {
+      // window.localStorage.setItem('hou', 'aaaaaaa')
+      var data2 = localStorage.getItem('hou')
+      console.log(data2)
+    },
     methods: {
-      handleOpen (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleClose (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleSelect (key, keyPath) {
-        console.log(key, keyPath)
+      onEventClick (event, e) {
+        this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
+        this.selectedEvent = event
+        this.showDialog = true
+
+        // Prevent navigating to narrower view (default vue-cal behavior).
+        e.stopPropagation()
       }
     }
   }
