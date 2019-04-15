@@ -7,7 +7,9 @@
     :on-event-click="onEventClick"
     >
     </vue-cal>
-    <v-dialog v-model="showDialog">
+    <button id="information-dialog">Choose a directory</button>
+    <!-- <AddButton :items=events /> -->
+    <!-- <v-dialog v-model="showDialog">
       <v-card>
         <v-card-title>
           <v-icon>{{ selectedEvent.icon }}</v-icon>
@@ -24,7 +26,7 @@
           </ul>
         </v-card-text>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </div>
   
 </template>
@@ -33,12 +35,14 @@
   // import LandingPage from '@/components/LandingPage/historyView'
   // import LandingPage from '@/components/pages/history'
   import VueCal from 'vue-cal'
+  import AddButton from './components/AddButton'
   import 'vue-cal/dist/vuecal.css'
   export default {
     name: 'electronui',
     components: {
       // LandingPage,
-      VueCal
+      VueCal,
+      AddButton
     },
     data () {
       return {
@@ -62,13 +66,14 @@
       // window.localStorage.setItem('hou', 'aaaaaaa')
       var data2 = localStorage.getItem('hou')
       console.log(data2)
+      const dialog = require('electron').remote.dialog
+      dialog.showErrorBox('title', 'Error')
     },
     methods: {
       onEventClick (event, e) {
         this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
         this.selectedEvent = event
         this.showDialog = true
-
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
       }
