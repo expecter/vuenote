@@ -17,27 +17,45 @@
 <script>
   // import LandingPage from '@/components/LandingPage/historyView'
   // import LandingPage from '@/components/pages/history'
-  import vueCal from './components/cal/vueCal'
+  // import vueCal from './components/cal/vueCal'
   export default {
     name: 'electronui',
     components: {
       // LandingPage,
-      vueCal
+      // vueCal
     },
     data () {
       return {
         links: [
           {
-            text: '胡萝卜',
+            text: '日历',
             route: '/'
           },
           {
-            text: '大白菜',
-            route: '/vueCal'
+            text: '添加',
+            route: '/eventEdit'
+          }
+        ],
+        events: [
+          {
+            start: '2019-04-15 10:35',
+            end: '2019-04-15 11:30',
+            title: '测试'
           },
           {
-            text: '水蜜桃',
-            route: '/eventEdit'
+            start: '2019-04-15 10:35',
+            end: '2019-04-15 23:30',
+            title: '测试22'
+          },
+          {
+            start: '2019-04-15 10:35',
+            end: '2019-04-15 11:30',
+            title: '测试33'
+          },
+          {
+            start: '2018-11-19 18:30',
+            end: '2018-11-19 19:15',
+            title: 'Dentist appointment'
           }
         ]
       }

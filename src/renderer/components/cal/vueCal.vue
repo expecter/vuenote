@@ -49,7 +49,20 @@
     created: function () {
       // window.localStorage.setItem('hou', 'aaaaaaa')
       var data2 = localStorage.getItem('hou')
-      console.log(data2)
+      console.log('data2', data2)
+      window.addEventListener('storage', function (e) {
+        console.log('key', e.key); console.log('oldValue', e.oldValue)
+        console.log('newValue', e.newValue); console.log('url', e.url)
+      })
+    },
+    mounted () {
+      if (localStorage.name) {
+        this.name = localStorage.name
+        console.log('this.name', this.name)
+      }
+      if (localStorage.age) {
+        this.age = localStorage.age
+      }
     },
     methods: {
       onEventClick (event, e) {
