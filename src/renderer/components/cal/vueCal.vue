@@ -47,19 +47,27 @@
       }
     },
     created: function () {
+      if (localStorage.tlEventName) {
+        var tlEvent = localStorage.tlEventName.split(',')
+        for (let eventName in tlEvent) {
+          console.log(eventName)
+          var eventData = (localStorage[tlEvent[eventName]]).split(',')
+          console.log(eventData)
+          if (eventData[0]) {
+            this.events.push({
+              start: eventData[0],
+              end: eventData[1],
+              title: eventData[2]
+            })
+          }
+        }
+      }
     },
     mounted () {
-      if (localStorage.name) {
-        this.name = localStorage.name
-        console.log('this.name', this.name)
-      }
-      if (localStorage.age) {
-        this.age = localStorage.age
-      }
     },
     methods: {
       onEventClick (event, e) {
-        this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
+        // this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
         this.selectedEvent = event
         this.showDialog = true
         // Prevent navigating to narrower view (default vue-cal behavior).

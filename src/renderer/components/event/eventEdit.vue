@@ -7,6 +7,8 @@
       range-separator="至"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
+      format="yyyy-MM-dd hh:mm" 
+      value-format="yyyy-MM-dd hh:mm"
       align="right">
     </el-date-picker>
     <button v-on:click=eventAdd>Add 1</button>
@@ -14,7 +16,19 @@
 </template>
 <script>
 let eventAdd = function () {
-  console.log('111222', this.value2)
+  var eventName = 'evN_1'
+  if (localStorage.tlEventName) {
+    var tlEvent = localStorage.tlEventName.split(',')
+    var lastElement = tlEvent[tlEvent.length - 1]
+    var tlIndex = lastElement.split('_')
+    var nextIndex = parseInt(tlIndex[1]) + 1
+    eventName = 'evN_' + nextIndex
+    tlEvent.push(eventName)
+    localStorage.tlEventName = tlEvent
+  } else {
+    localStorage.tlEventName = [eventName]
+  }
+  localStorage[eventName] = [this.value2[0], this.value2[1], 'AAAA']
 }
 
 export default {
@@ -52,10 +66,6 @@ export default {
     }
   },
   created: function () {
-    // window.localStorage.setItem('hou', 'aaaaaaa')
-    var eventName = '2222'
-    localStorage.tlEventName = [eventName]
-    localStorage[eventName] = ['AAAA']
   },
   methods: {
     eventAdd
