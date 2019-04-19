@@ -12,6 +12,12 @@
           <router-view></router-view>
         </div>        
       </el-main>
+      <el-dialog
+          title="提示"
+          :visible.sync="showDialog"
+          width="30%">
+          <eventEdit></eventEdit>
+        </el-dialog>
       </el-container>
       
       
@@ -23,14 +29,17 @@
   // import LandingPage from '@/components/LandingPage/historyView'
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
+  import eventEdit from '@/components/event/eventEdit'
   export default {
     name: 'electronui',
     components: {
+      eventEdit
       // LandingPage,
       // vueCal
     },
     data () {
       return {
+        showDialog: true,
         links: [
           {
             text: '日历',

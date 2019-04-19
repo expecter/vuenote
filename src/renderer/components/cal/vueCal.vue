@@ -14,8 +14,8 @@
           width="30%">
           <span>{{ selectedEvent.title }}</span>
           <ul>
-            <li>Event starts at: {{ selectedEvent.startTime }}</li>
-            <li>Event ends at: {{ selectedEvent.endTime }}</li>
+            <li>开始时间: {{ selectedEvent.startTime }}</li>
+            <li>结束时间: {{ selectedEvent.endTime }}</li>
           </ul>
           <!-- <span slot="footer" class="dialog-footer">
             <el-button @click="showDialog = false">取 消</el-button>
@@ -40,26 +40,6 @@
         selectedEvent: {},
         showDialog: false,
         events: [
-          {
-            start: '2019-04-15 10:35',
-            end: '2019-04-15 11:30',
-            title: '测试'
-          },
-          {
-            start: '2019-04-15 10:35',
-            end: '2019-04-15 23:30',
-            title: '测试22'
-          },
-          {
-            start: '2019-04-15 10:35',
-            end: '2019-04-15 11:30',
-            title: '测试33'
-          },
-          {
-            start: '2018-11-19 18:30',
-            end: '2018-11-19 19:15',
-            title: 'Dentist appointment'
-          }
         ]
       }
     },
