@@ -1,11 +1,28 @@
-<template> 
-    <vue-cal 
+<template>
+<div> 
+    <vue-cal
+    :time="false" 
     :events="events" 
     events-on-month-view="short"
     :disable-views="['year']"
     :on-event-click="onEventClick"
     >
     </vue-cal>
+    <el-dialog
+          title="提示"
+          :visible.sync="showDialog"
+          width="30%">
+          <span>{{ selectedEvent.title }}</span>
+          <ul>
+            <li>Event starts at: {{ selectedEvent.startTime }}</li>
+            <li>Event ends at: {{ selectedEvent.endTime }}</li>
+          </ul>
+          <!-- <span slot="footer" class="dialog-footer">
+            <el-button @click="showDialog = false">取 消</el-button>
+            <el-button type="primary" @click="showDialog = false">确 定</el-button>
+          </span> -->
+        </el-dialog>
+</div>
 </template>
 <script>
   // import LandingPage from '@/components/LandingPage/historyView'

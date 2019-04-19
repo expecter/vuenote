@@ -1,26 +1,21 @@
-<template>  
-  <div id="app">    
+<template>     
+    <div>
+        
       <el-container>
-      <el-aside width="200px">
+        <el-aside width="100px">
         <ul>
           <li v-for="item in links"><a @click="$goRoute(item.route)">{{item.text}}</a></li>
         </ul>
       </el-aside>
-      <el-main>
-        <el-dialog
-          title="提示"
-          :visible.sync="dialogVisible"
-          width="30%">
-          <span>这是一段信息</span>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-          </span>
-        </el-dialog>
-        <router-view></router-view>
+        <el-main>
+        <div height = "400px">
+          <router-view></router-view>
+        </div>        
       </el-main>
-    </el-container>
-  </div>
+      </el-container>
+      
+      
+    </div>
   
 </template>
 
@@ -36,7 +31,6 @@
     },
     data () {
       return {
-        dialogVisible: true,
         links: [
           {
             text: '日历',
@@ -75,5 +69,4 @@
 </script>
 
 <style>
-  /* CSS */
 </style>
