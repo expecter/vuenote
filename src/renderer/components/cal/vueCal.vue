@@ -1,11 +1,12 @@
 <template>
-<div> 
-    <vue-cal
-    :time="false" 
-    :events="events" 
-    events-on-month-view="short"
-    events-count-on-year-view
+<div>
+    <vue-cal class="vuecal--green-theme"
+    xsmall
+    :events="events"
+    locale="zh-cn"
+    style="height: 400px"
     :disable-views="['year']"
+    :no-event-overlaps="true"
     :on-event-click="onEventClick"
     >
     </vue-cal>
@@ -65,6 +66,7 @@
                 start: eventData[0],
                 end: eventData[1],
                 title: eventData[2],
+                class: 'leisure',
                 eventId: tlEvent[eventName]
               })
             }
@@ -76,5 +78,19 @@
 </script>
 
 <style>
-  /* CSS */
+  /* .vuecal__cell-events-count {
+    width: 18px;
+    height: 2px;
+    color: transparent;
+  }
+
+  .vuecal__cell-events-count {
+    width: 4px;
+    height: 4px;
+    color: transparent;
+  }
+
+  .vuecal__cell--has-events {background-color: #fffacd;}
+  .vuecal__cell-events-count {display: none;} */
+  .vuecal__event.leisure {background-color: rgba(164, 230, 210, 0.9);border: 1px solid rgb(144, 210, 190);}
 </style>

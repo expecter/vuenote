@@ -12,7 +12,6 @@
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
-        format="yyyy-MM-dd hh:mm"
         align="right">
       </el-date-picker>
       <button v-on:click=eventAdd v-show = !inEditView>新增</button>
@@ -119,11 +118,15 @@ export default {
       if (this.eventId) {
         this.inEditView = true
         var eventData = (localStorage[this.eventId]).split(',')
+        console.log('AAAAAAAAAAAAAAA')
         this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
+        this.msg = eventData[2]
       }
     },
     modelValue (val) {
+      console.log('val', val)
       this.value2 = [this.formatDate(val[0], 'yyyy-MM-dd hh:mm'), this.formatDate(val[1], 'yyyy-MM-dd hh:mm')]
+      console.log('this.value2', this.value2)
     }
   },
   methods: {
