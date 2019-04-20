@@ -3,19 +3,14 @@
         
       <el-container>
         <el-aside width="100px">
-          <el-button @click="showDialog = true">添加事件</el-button>
+          <el-button @click="addEventPanel">添加事件</el-button>
       </el-aside>
         <el-main>
         <div height = "400px">
           <router-view></router-view>
         </div>        
       </el-main>
-      <el-dialog
-          title="提示"
-          :visible.sync="showDialog"
-          width="60%">
-          <eventEdit></eventEdit>
-        </el-dialog>
+        <eventEdit :showDialog = showDialog></eventEdit>
       </el-container>
       
       
@@ -30,7 +25,7 @@
   import eventEdit from '@/components/event/eventEdit'
   
   let addEventPanel = function () {
-    this.showDialog = true
+    this.showDialog = this.showDialog + 1
   }
   export default {
     name: 'electronui',
@@ -41,7 +36,7 @@
     },
     data () {
       return {
-        showDialog: false,
+        showDialog: 1,
         links: [
           {
             text: '日历',

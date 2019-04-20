@@ -1,20 +1,25 @@
 <template>
-<div>
-  <el-date-picker
-      v-model="value2"
-      type="datetimerange"
-      :picker-options="pickerOptions"
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      format="yyyy-MM-dd hh:mm" 
-      value-format="yyyy-MM-dd hh:mm"
-      align="right">
-    </el-date-picker>
-    <button v-on:click=eventAdd v-show = !inEditView>新增</button>
-    <button v-on:click=eventUpdate v-show = inEditView>编辑</button>
-    <button v-on:click=eventDelete v-show = inEditView>删除</button>
-</div>
+<el-dialog
+  title="提示"
+  :visible.sync="mgshowDialog"
+  width="60%">
+  <div>
+    <el-input v-model="msg" placeholder="请输入内容"></el-input>
+    <el-date-picker
+        v-model="modelValue"
+        type="datetimerange"
+        :picker-options="pickerOptions"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        format="yyyy-MM-dd hh:mm"
+        align="right">
+      </el-date-picker>
+      <button v-on:click=eventAdd v-show = !inEditView>新增</button>
+      <button v-on:click=eventUpdate v-show = inEditView>编辑</button>
+      <button v-on:click=eventDelete v-show = inEditView>删除</button>
+  </div>
+</el-dialog>
 </template>
 <script>
 let eventAdd = function () {
@@ -33,6 +38,7 @@ let eventAdd = function () {
   localStorage[eventName] = [this.value2[0], this.value2[1], this.msg]
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
+  this.mgshowDialog = false
 }
 let eventUpdate = function () {
   console.log('this.value2', this.value2)
@@ -40,16 +46,16 @@ let eventUpdate = function () {
   localStorage[this.eventId] = [this.value2[0], this.value2[1], this.msg]
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
+  this.mgshowDialog = false
 }
 
 let eventDelete = function () {
   if (localStorage.tlEventName) {
     var tlEvent = localStorage.tlEventName.split(',')
     tlEvent.splice(tlEvent.indexOf(this.eventId), 1)
-    console.log('SSSSS', tlEvent)
     localStorage.tlEventName = tlEvent
+    this.mgshowDialog = false
   }
-  console.log('SSSSSTT', this.eventId)
   localStorage.removeItem(this.eventId)
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
@@ -89,26 +95,35 @@ export default {
         }]
       },
       inEditView: false,
+      mgshowDialog: false,
       value2: '',
-      msg: 'AAAAA'
+      modelValue: '',
+      msg: ''
     }
   },
-  props: ['eventId'],
+  props: ['eventId', 'showDialog'],
   created: function () {
-    if (this.eventId) {
-      this.inEditView = true
-      var eventData = (localStorage[this.eventId]).split(',')
-      this.value2 = [new Date(eventData[0]), new Date(eventData[1])]
-    }
   },
   watch: {
-    eventId () {
-      console.log('eventId has change')
+    // eventId () {
+    //   if (this.eventId) {
+    //     this.inEditView = true
+    //     var eventData = (localStorage[this.eventId]).split(',')
+    //     this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
+    //     this.value2 = [eventData[0], eventData[1]]
+    //   }
+    // },
+    showDialog () {
+      console.log('click showDialog', this.eventId)
+      this.mgshowDialog = true
       if (this.eventId) {
         this.inEditView = true
         var eventData = (localStorage[this.eventId]).split(',')
-        this.value2 = [new Date(eventData[0]), new Date(eventData[1])]
+        this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
       }
+    },
+    modelValue (val) {
+      this.value2 = [this.formatDate(val[0], 'yyyy-MM-dd hh:mm'), this.formatDate(val[1], 'yyyy-MM-dd hh:mm')]
     }
   },
   methods: {

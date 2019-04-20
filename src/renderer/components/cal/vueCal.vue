@@ -9,17 +9,7 @@
     :on-event-click="onEventClick"
     >
     </vue-cal>
-    <el-dialog
-          title="提示"
-          :visible.sync="showDialog"
-          width="60%">
-          <span>{{ selectedEvent.title }}</span>
-          <!-- <ul>
-            <li>开始时间: {{ selectedEvent.startTime }}</li>
-            <li>结束时间: {{ selectedEvent.endTime }}</li>
-          </ul> -->
-          <eventEdit :eventId=eventId></eventEdit>
-        </el-dialog>
+    <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
 </div>
 </template>
 <script>
@@ -38,7 +28,7 @@
     data () {
       return {
         selectedEvent: {},
-        showDialog: false,
+        showDialog: 0,
         eventId: '',
         events: [
         ]
@@ -58,7 +48,7 @@
         // this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
         this.selectedEvent = event
         this.eventId = this.selectedEvent.eventId
-        this.showDialog = true
+        this.showDialog = this.showDialog + 1
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
       },
