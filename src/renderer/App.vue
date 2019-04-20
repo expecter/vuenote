@@ -3,9 +3,7 @@
         
       <el-container>
         <el-aside width="100px">
-        <ul>
-          <li v-for="item in links"><a @click="$goRoute(item.route)">{{item.text}}</a></li>
-        </ul>
+          <el-button @click="showDialog = true">添加事件</el-button>
       </el-aside>
         <el-main>
         <div height = "400px">
@@ -15,7 +13,7 @@
       <el-dialog
           title="提示"
           :visible.sync="showDialog"
-          width="30%">
+          width="60%">
           <eventEdit></eventEdit>
         </el-dialog>
       </el-container>
@@ -30,6 +28,10 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
+  
+  let addEventPanel = function () {
+    this.showDialog = true
+  }
   export default {
     name: 'electronui',
     components: {
@@ -39,7 +41,7 @@
     },
     data () {
       return {
-        showDialog: true,
+        showDialog: false,
         links: [
           {
             text: '日历',
@@ -73,6 +75,9 @@
           }
         ]
       }
+    },
+    methods: {
+      addEventPanel
     }
   }
 </script>

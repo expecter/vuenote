@@ -29,6 +29,8 @@ let eventAdd = function () {
     localStorage.tlEventName = [eventName]
   }
   localStorage[eventName] = [this.value2[0], this.value2[1], 'AAAA']
+  let setEvent = new Event('setItemEvent')
+  window.dispatchEvent(setEvent)
 }
 
 export default {

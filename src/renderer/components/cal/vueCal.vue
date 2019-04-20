@@ -44,21 +44,12 @@
       }
     },
     created: function () {
-      if (localStorage.tlEventName) {
-        var tlEvent = localStorage.tlEventName.split(',')
-        for (let eventName in tlEvent) {
-          console.log(eventName)
-          var eventData = (localStorage[tlEvent[eventName]]).split(',')
-          console.log(eventData)
-          if (eventData[0]) {
-            this.events.push({
-              start: eventData[0],
-              end: eventData[1],
-              title: eventData[2]
-            })
-          }
-        }
-      }
+      let self = this
+      window.addEventListener('setItemEvent', function (e) {
+        self.updateVueCal()
+      })
+      console.log(this)
+      this.updateVueCal()
     },
     mounted () {
     },
@@ -69,6 +60,23 @@
         this.showDialog = true
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
+      },
+      updateVueCal () {
+        if (localStorage.tlEventName) {
+          var tlEvent = localStorage.tlEventName.split(',')
+          for (let eventName in tlEvent) {
+            console.log(eventName)
+            var eventData = (localStorage[tlEvent[eventName]]).split(',')
+            console.log(eventData)
+            if (eventData[0]) {
+              this.events.push({
+                start: eventData[0],
+                end: eventData[1],
+                title: eventData[2]
+              })
+            }
+          }
+        }
       }
     }
   }
