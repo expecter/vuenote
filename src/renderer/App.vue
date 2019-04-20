@@ -7,7 +7,8 @@
       </el-aside>
         <el-main>
         <div height = "400px">
-          <router-view></router-view>
+          <!-- <router-view></router-view> -->
+          <!-- <filedown></filedown> -->
         </div>        
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
@@ -23,7 +24,7 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
-  
+  // import filedown from '@/components/filedown'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
   }
@@ -31,6 +32,7 @@
     name: 'electronui',
     components: {
       eventEdit
+      // filedown
       // LandingPage,
       // vueCal
     },
