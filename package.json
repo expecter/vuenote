@@ -1,6 +1,6 @@
 {
   "name": "electronui",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "expecter <1005426244@qq.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -26,6 +26,12 @@
     },
     "files": [
       "dist/electron/**/*"
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://localhost:8080/versions/"
+      }
     ],
     "dmg": {
       "contents": [
@@ -53,6 +59,7 @@
     }
   },
   "dependencies": {
+    "electron-updater": "^4.0.6",
     "element-ui": "^2.6.1",
     "file-saver": "^2.0.1",
     "materialize-css": "^1.0.0",
