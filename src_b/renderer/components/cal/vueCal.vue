@@ -61,14 +61,13 @@
           for (let eventName in tlEvent) {
             console.log(eventName)
             var eventData = (localStorage[tlEvent[eventName]]).split(',')
-            console.log('testhhh', eventData)
-            var color = 'leisure'
+            console.log(eventData)
+            // var color = ''
             if (eventData[3]) {
-              for (var index in config.workData()) {
-                var item = config.workData()[index]
+              for (var item in config.workData()) {
                 if (item.type === eventData[3]) {
                   console.log(item)
-                  color = item.color
+                  // color = item.color
                 }
               }
             }
@@ -77,7 +76,7 @@
                 start: eventData[0],
                 end: eventData[1],
                 title: eventData[2],
-                class: color,
+                class: 'leisure',
                 eventId: tlEvent[eventName]
               })
             }
@@ -103,7 +102,5 @@
 
   .vuecal__cell--has-events {background-color: #fffacd;}
   .vuecal__cell-events-count {display: none;} */
-  .vuecal__event.leisure {background-color: rgba(253, 156, 66, 0.9);border: 1px solid rgb(233, 136, 46);color: #fff;}
-  .vuecal__event.health {background-color: rgba(164, 230, 210, 0.9);border: 1px solid rgb(144, 210, 190);}
-  .vuecal__event.sport {background-color: rgba(255, 102, 102, 0.9);border: 1px solid rgb(235, 82, 82);color: #fff;}
+  .vuecal__event.leisure {background-color: rgba(164, 230, 210, 0.9);border: 1px solid rgb(144, 210, 190);}
 </style>

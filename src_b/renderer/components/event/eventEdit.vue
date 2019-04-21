@@ -13,9 +13,6 @@
         end-placeholder="结束日期"
         align="right">
       </el-date-picker>
-      <select v-model = 'locale'>
-        <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
-      </select>
       <button v-on:click=eventAdd v-show = !inEditView>新增</button>
       <button v-on:click=eventUpdate v-show = inEditView>编辑</button>
       <button v-on:click=eventDelete v-show = inEditView>删除</button>
@@ -69,6 +66,33 @@ let padLeftZero = function (str) {
 export default {
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
       localesList: config.workData(),
       inEditView: false,
       mgshowDialog: false,
@@ -91,6 +115,7 @@ export default {
     //   }
     // },
     showDialog () {
+      console.log('click showDialog', this.eventId)
       this.mgshowDialog = true
       if (this.eventId) {
         this.inEditView = true
@@ -103,8 +128,12 @@ export default {
       }
     },
     modelValue (val) {
+      console.log('val', val)
       this.value2 = [this.formatDate(val[0], 'yyyy-MM-dd hh:mm'), this.formatDate(val[1], 'yyyy-MM-dd hh:mm')]
       console.log('this.value2', this.value2)
+    },
+    locale (val) {
+      console.log('val', val)
     }
   },
   methods: {

@@ -24,6 +24,7 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
+  import config from '@/components/config/config'
   import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
   let addEventPanel = function () {
@@ -69,6 +70,7 @@
       }
     },
     created: function () {
+      console.log(config.workData())
     },
     methods: {
       addEventPanel,
