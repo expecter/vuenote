@@ -5,7 +5,7 @@
     :events="events"
     locale="zh-cn"
     style="height: 400px"
-    :disable-views="['year']"
+    :disable-views="['years']"
     :no-event-overlaps="true"
     :on-event-click="onEventClick"
     >
