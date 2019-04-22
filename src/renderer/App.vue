@@ -24,25 +24,25 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
-  import { ipcRenderer } from 'electron'
+  // import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
   }
   let checkUpdate = function () {
-    const _this = this
-    ipcRenderer.send('checkForUpdate')
-    ipcRenderer.on('message', (event, text) => {
-      console.log(arguments)
-      _this.tips = text
-    })
-    ipcRenderer.on('downloadProgress', (event, progressObj) => {
-      console.log(progressObj)
-      _this.downloadPercent = progressObj.percent || 0
-    })
-    ipcRenderer.on('isUpdateNow', () => {
-      ipcRenderer.send('isUpdateNow')
-    })
+    // const _this = this
+    // ipcRenderer.send('checkForUpdate')
+    // ipcRenderer.on('message', (event, text) => {
+    //   console.log(arguments)
+    //   _this.tips = text
+    // })
+    // ipcRenderer.on('downloadProgress', (event, progressObj) => {
+    //   console.log(progressObj)
+    //   _this.downloadPercent = progressObj.percent || 0
+    // })
+    // ipcRenderer.on('isUpdateNow', () => {
+    //   ipcRenderer.send('isUpdateNow')
+    // })
   }
   export default {
     name: 'electronui',
