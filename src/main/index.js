@@ -79,7 +79,6 @@ function updateHandle () {
   // const os = require('os')
   const uploadUrl = 'http://localhost:8080/verson/' // 下载地址，不加后面的.exe
   if (process.env.NODE_ENV === 'development') {
-    console.log('hahhahahahah')
     autoUpdater.updateConfigPath = 'app-update.yml'
   }
   autoUpdater.setFeedURL(uploadUrl)

@@ -3,7 +3,15 @@
         
       <el-container>
         <el-aside width="100px">
+        <el-row>
           <el-button @click="addEventPanel">添加事件</el-button>
+        </el-row>
+        <el-row>
+          <el-button @click="addEventPanel">添加分类</el-button>
+        </el-row>
+        <el-row>
+          <el-button @click="addEventPanel">导出事件</el-button>
+        </el-row>
       </el-aside>
         <el-main>
         <div height = "400px">
