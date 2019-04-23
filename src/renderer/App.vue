@@ -12,6 +12,9 @@
         <el-row>
           <el-button @click="addEventPanel">导出事件</el-button>
         </el-row>
+        <el-row>
+          <el-button @click="addEventPanel">事件追踪</el-button>
+        </el-row>
       </el-aside>
         <el-main>
         <div height = "400px">
