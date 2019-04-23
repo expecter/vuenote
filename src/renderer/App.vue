@@ -18,8 +18,9 @@
       </el-aside>
         <el-main>
         <div height = "400px">
-          <router-view></router-view>
+          <!-- <router-view></router-view> -->
           <!-- <filedown></filedown> -->
+          <fileupload></fileupload>
         </div>
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
@@ -37,6 +38,7 @@
   import eventEdit from '@/components/event/eventEdit'
   // import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
+  import fileupload from '@/components/fileupload'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
   }
@@ -65,7 +67,8 @@
   export default {
     name: 'electronui',
     components: {
-      eventEdit
+      eventEdit,
+      fileupload
       // filedown
       // LandingPage,
       // vueCal
