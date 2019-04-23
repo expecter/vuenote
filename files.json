@@ -1,0 +1,74 @@
+[   
+    {
+        "type": "movie",
+        "name": "电影",
+        "tlName": [
+            {
+                "name": "阿拉丁",
+                "isRead": false,
+                "time": "20190524"
+            },
+            {
+                "name": "DC小丑",
+                "isRead": false,
+                "time": "20191004"
+            },
+            {
+                "name": "复仇者联盟4",
+                "isRead": false,
+                "time": "20190424"
+            },
+            {
+                "name": "大侦探皮卡丘",
+                "isRead": false,
+                "time": "20190510"
+            },
+            {
+                "name": "X战警:黑凤凰",
+                "isRead": false,
+                "time": "20190606"
+            },
+            {
+                "name": "哥斯拉2",
+                "isRead": false,
+                "time": "20190531"
+            }
+        ]
+    },
+    {
+        "type": "xinfan",
+        "name": "新番",
+        "tlName": [
+            {
+                "name": "异世界四重奏",
+                "isRead": false,
+                "startTime": "20190524",
+                "endTime": "20190524"
+            },
+            {
+                "name": "权利的游戏",
+                "isRead": false,
+                "startTime": "20190524",
+                "endTime": "20190524"
+            },
+            {
+                "name": "异世界四重奏",
+                "isRead": false,
+                "startTime": "20190524",
+                "endTime": "20190524"
+            }
+        ]
+    },
+    {
+        "type": "workover",
+        "isRead": false,
+        "name": "加班",
+        "tlName": []
+    },
+    {
+        "type": "work",
+        "isRead": false,
+        "name": "工作",
+        "tlName": []
+    }
+]

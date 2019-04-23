@@ -7,7 +7,7 @@
           <el-button @click="addEventPanel">添加事件</el-button>
         </el-row>
         <el-row>
-          <el-button @click="addEventPanel">添加分类</el-button>
+          <el-button @click="readFile">添加分类</el-button>
         </el-row>
         <el-row>
           <el-button @click="addEventPanel">导出事件</el-button>
@@ -39,6 +39,13 @@
   // import filedown from '@/components/filedown'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
+  }
+  let readFile = function () {
+    // const fs = require('fs')
+    // fs.readFile('files.json', 'utf-8', (err, dataStr) => {
+    //   if (err) throw err
+    //   console.log(dataStr)
+    // })
   }
   let checkUpdate = function () {
     // const _this = this
@@ -83,7 +90,8 @@
     },
     methods: {
       addEventPanel,
-      checkUpdate
+      checkUpdate,
+      readFile
     }
   }
 </script>
