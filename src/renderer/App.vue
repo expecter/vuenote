@@ -4,26 +4,31 @@
       <el-container>
         <el-aside width="100px">
         <el-row>
-          <el-button @click="addEventPanel">添加事件</el-button>
+          <el-button @click="addEventPanel">日历列表</el-button>
         </el-row>
         <el-row>
-          <el-button @click="readFile">添加分类</el-button>
-        </el-row>
-        <el-row>
-          <el-button @click="addEventPanel">导出事件</el-button>
+          <el-button @click="addEventPanel">事件列表</el-button>
         </el-row>
         <el-row>
           <el-button @click="addEventPanel">事件追踪</el-button>
         </el-row>
       </el-aside>
+      <el-container>
         <el-main>
         <div height = "400px">
-          <!-- <router-view></router-view> -->
+          <router-view></router-view>
           <!-- <filedown></filedown> -->
-          <fileupload></fileupload>
+          <!-- <fileupload></fileupload> -->
         </div>
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
+        <el-footer>
+            <el-button @click="addEventPanel">添加事件</el-button>
+            <el-button @click="readFile">添加分类</el-button>
+            <el-button @click="addEventPanel">导出事件</el-button>
+            <el-button @click="addEventPanel">导入事件</el-button>
+        </el-footer>
+        </el-container>
       </el-container>
       
       
