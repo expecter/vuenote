@@ -2,7 +2,7 @@
     <div>
         
       <el-container>
-        <el-aside width="100px">
+        <!-- <el-aside width="100px">
         <el-row>
           <el-button @click="addEventPanel">日历列表</el-button>
         </el-row>
@@ -12,10 +12,11 @@
         <el-row>
           <el-button @click="addEventPanel">事件追踪</el-button>
         </el-row>
-      </el-aside>
+      </el-aside> -->
       <el-container>
         <el-main>
         <div height = "400px">
+          <!-- <testEdit></testEdit> -->
           <router-view></router-view>
           <!-- <filedown></filedown> -->
           <!-- <fileupload></fileupload> -->
@@ -23,10 +24,11 @@
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
         <el-footer>
-            <el-button @click="addEventPanel">添加事件</el-button>
-            <el-button @click="readFile">添加分类</el-button>
-            <el-button @click="addEventPanel">导出事件</el-button>
-            <el-button @click="addEventPanel">导入事件</el-button>
+            <el-button @click="addEventPanel" round>添加事件</el-button>
+            <el-button @click="readFile" round>添加分类</el-button>
+            <el-button @click="addEventPanel" round>导出事件</el-button>
+            <el-button @click="addEventPanel" round>导入事件</el-button>
+            <el-button @click="addEventPanel" round>事件追踪</el-button>
         </el-footer>
         </el-container>
       </el-container>
@@ -41,6 +43,7 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
+  import testEdit from '@/components/event/testEdit'
   // import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
   import fileupload from '@/components/fileupload'
@@ -73,7 +76,8 @@
     name: 'electronui',
     components: {
       eventEdit,
-      fileupload
+      fileupload,
+      testEdit
       // filedown
       // LandingPage,
       // vueCal

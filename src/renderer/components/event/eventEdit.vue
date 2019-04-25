@@ -4,21 +4,33 @@
   :visible.sync="mgshowDialog"
   width="60%">
   <div>
-    <el-input v-model="msg" placeholder="请输入内容"></el-input>
-    <el-date-picker
-        v-model="modelValue"
-        type="datetimerange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        align="right">
-      </el-date-picker>
-      <select v-model = 'locale'>
+    <el-form ref="form" :model="form" label-width="80px">    
+    <el-form-item label="活动名称">
+      <el-input v-model="msg" placeholder="请输入内容"></el-input>
+    </el-form-item>    
+      <el-form-item label="活动时间">
+        <el-date-picker
+          v-model="modelValue"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          align="right">
+        </el-date-picker>
+      </el-form-item>
+
+      <!-- <select v-model = 'locale'>
         <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
-      </select>
+      </select> -->
+      <el-form-item label="活动类型">
+        <el-select v-model = 'locale' placeholder="请选择活动区域">
+          <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
+        </el-select>
+      </el-form-item>
       <button v-on:click=eventAdd v-show = !inEditView>新增</button>
       <button v-on:click=eventUpdate v-show = inEditView>编辑</button>
       <button v-on:click=eventDelete v-show = inEditView>删除</button>
+    </el-form>
   </div>
 </el-dialog>
 </template>
@@ -75,7 +87,8 @@ export default {
       locale: '',
       value2: '',
       modelValue: '',
-      msg: ''
+      msg: '',
+      form: {}
     }
   },
   props: ['eventId', 'showDialog'],
