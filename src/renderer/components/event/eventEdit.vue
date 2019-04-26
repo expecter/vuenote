@@ -19,10 +19,6 @@
           align="right">
         </el-date-picker>
       </el-form-item>
-
-      <select v-model = 'locale'>
-        <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
-      </select>
       <el-form-item label="活动类型">
         <el-select v-model = 'locale' placeholder="请选择活动区域" style="width: 100%;">
           <el-option  v-for="item in localesList" :label="item.name" :value="item.type" :key="item.type"></el-option>
