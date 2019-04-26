@@ -22,10 +22,10 @@
         </div>
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
-        <!-- <typeEdit :showTypeDialog = showTypeDialog></typeEdit> -->
+        <typeEdit :showTypeDialog = showTypeDialog></typeEdit>
         <el-footer>
             <el-button @click="addEventPanel" round>添加事件</el-button>
-            <el-button @click="readFile" round>添加分类</el-button>
+            <el-button @click="showTypePanel" round>添加分类</el-button>
             <el-button @click="addEventPanel" round>导出事件</el-button>
             <el-button @click="addEventPanel" round>导入事件</el-button>
             <el-button @click="addEventPanel" round>事件追踪</el-button>
