@@ -21,6 +21,7 @@ export default {
     return {
       localesList: config.workData(),
       mgshowDialog: false,
+      locale: '',
       form: {}
     }
   },
