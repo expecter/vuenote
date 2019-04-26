@@ -6,7 +6,7 @@
   <div>
     <el-form ref="form" :model="form" label-width="80px">    
     <el-form-item label="活动名称">
-      <el-input v-model="msg" placeholder="请输入内容"></el-input>
+      <el-input v-model="msg" placeholder="请输入内容" style="width: 100%;"></el-input>
     </el-form-item>    
       <el-form-item label="活动时间">
         <el-date-picker
@@ -15,21 +15,24 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          style="width: 100%;"
           align="right">
         </el-date-picker>
       </el-form-item>
 
-      <!-- <select v-model = 'locale'>
+      <select v-model = 'locale'>
         <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
-      </select> -->
+      </select>
       <el-form-item label="活动类型">
-        <el-select v-model = 'locale' placeholder="请选择活动区域">
-          <option :value="item.type" :key="item.type" v-for="item in localesList">{{item.name}}</option>
+        <el-select v-model = 'locale' placeholder="请选择活动区域" style="width: 100%;">
+          <el-option  v-for="item in localesList" :label="item.name" :value="item.type" :key="item.type"></el-option>
         </el-select>
       </el-form-item>
-      <button v-on:click=eventAdd v-show = !inEditView>新增</button>
-      <button v-on:click=eventUpdate v-show = inEditView>编辑</button>
-      <button v-on:click=eventDelete v-show = inEditView>删除</button>
+      <el-form-item>
+        <el-button @click="eventAdd" v-show = "!inEditView">新增</el-button>
+        <el-button @click="eventUpdate" v-show = "inEditView">编辑</el-button>
+        <el-button @click="eventDelete" v-show = "inEditView">删除</el-button>
+      </el-form-item>      
     </el-form>
   </div>
 </el-dialog>

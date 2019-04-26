@@ -16,13 +16,13 @@
       <el-container>
         <el-main>
         <div height = "400px">
-          <!-- <testEdit></testEdit> -->
           <router-view></router-view>
           <!-- <filedown></filedown> -->
           <!-- <fileupload></fileupload> -->
         </div>
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
+        <!-- <typeEdit :showTypeDialog = showTypeDialog></typeEdit> -->
         <el-footer>
             <el-button @click="addEventPanel" round>添加事件</el-button>
             <el-button @click="readFile" round>添加分类</el-button>
@@ -43,12 +43,15 @@
   // import LandingPage from '@/components/pages/history'
   // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
-  import testEdit from '@/components/event/testEdit'
+  import typeEdit from '@/components/event/typeEdit'
   // import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
   import fileupload from '@/components/fileupload'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
+  }
+  let showTypePanel = function () {
+    this.showTypeDialog = this.showTypeDialog + 1
   }
   let readFile = function () {
     // const fs = require('fs')
@@ -77,7 +80,7 @@
     components: {
       eventEdit,
       fileupload,
-      testEdit
+      typeEdit
       // filedown
       // LandingPage,
       // vueCal
@@ -85,6 +88,7 @@
     data () {
       return {
         showDialog: 1,
+        showTypeDialog: 1,
         links: [
           {
             text: '日历',
@@ -103,6 +107,7 @@
     methods: {
       addEventPanel,
       checkUpdate,
+      showTypePanel,
       readFile
     }
   }
