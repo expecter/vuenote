@@ -19,7 +19,6 @@
     ref="saveTagInput"
     size="small"
     @keyup.enter.native="handleInputConfirm"
-    @blur="handleInputConfirm"
   >
   </el-input>
   <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
@@ -49,7 +48,8 @@ export default {
   },
   methods: {
     handleClose (tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
+      config.delWorkData(tag.type)
+      this.dynamicTags = config.workData()
     },
 
     showInput () {
@@ -61,9 +61,12 @@ export default {
 
     handleInputConfirm () {
       let inputValue = this.inputValue
-      if (inputValue) {
-        this.dynamicTags.push(inputValue)
-      }
+      // if (inputValue) {
+      //   this.dynamicTags.push(inputValue)
+      // }
+      config.addWorkData(inputValue)
+      this.dynamicTags = config.workData()
+      console.log(this.dynamicTags)
       this.inputVisible = false
       this.inputValue = ''
     }
