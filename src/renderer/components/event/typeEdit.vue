@@ -5,12 +5,12 @@
   width="60%">
   <div>
     <el-tag
-    :key="tag"
-    v-for="tag in dynamicTags"
+    :key="data.type"
+    v-for="data in dynamicTags"
     closable
     :disable-transitions="false"
-    @close="handleClose(tag)">
-    {{tag}}
+    @close="handleClose(data)">
+    {{data.type}}
   </el-tag>
   <el-input
     class="input-new-tag"
@@ -36,7 +36,7 @@ export default {
       locale: '',
       msg: '',
       form: {},
-      dynamicTags: ['标签一', '标签二', '标签三'],
+      dynamicTags: config.workData(),
       inputVisible: false,
       inputValue: ''
     }
