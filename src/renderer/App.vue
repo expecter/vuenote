@@ -2,17 +2,14 @@
     <div>
         
       <el-container>
-        <!-- <el-aside width="100px">
+        <el-aside width="100px">
         <el-row>
-          <el-button @click="addEventPanel">日历列表</el-button>
+          <el-button @click="$goRoute('vueCal')">日历列表</el-button>
         </el-row>
         <el-row>
-          <el-button @click="addEventPanel">事件列表</el-button>
+          <el-button @click="$goRoute('eventList')">事件列表</el-button>
         </el-row>
-        <el-row>
-          <el-button @click="addEventPanel">事件追踪</el-button>
-        </el-row>
-      </el-aside> -->
+      </el-aside>
       <el-container>
         <el-main>
         <div height = "400px">
@@ -28,7 +25,7 @@
             <el-button @click="showTypePanel" round>添加分类</el-button>
             <el-button @click="addEventPanel" round>导出事件</el-button>
             <el-button @click="addEventPanel" round>导入事件</el-button>
-            <el-button @click="addEventPanel" round>事件追踪</el-button>
+            <!-- <el-button @click="addEventPanel" round>事件追踪</el-button> -->
         </el-footer>
         </el-container>
       </el-container>
@@ -52,6 +49,12 @@
   }
   let showTypePanel = function () {
     this.showTypeDialog = this.showTypeDialog + 1
+  }
+  let showVueCalView = function () {
+
+  }
+  let showViewListView = function () {
+
   }
   let readFile = function () {
     // const fs = require('fs')
@@ -95,8 +98,8 @@
             route: '/'
           },
           {
-            text: '添加',
-            route: '/eventEdit'
+            text: '事件',
+            route: '/eventList'
           }
         ],
         events: []
@@ -108,6 +111,8 @@
       addEventPanel,
       checkUpdate,
       showTypePanel,
+      showVueCalView,
+      showViewListView,
       readFile
     }
   }
