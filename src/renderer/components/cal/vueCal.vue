@@ -2,12 +2,15 @@
 <div>
     <vue-cal class="vuecal--green-theme"
     xsmall
+    
     :events="events"
+    editable-events
     locale="zh-cn"
     style="height: 400px"
     :disable-views="['years']"
     :no-event-overlaps="true"
     :on-event-click="onEventClick"
+    @cell-focus="onCellClick"
     >
     </vue-cal>
     <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
@@ -54,20 +57,21 @@
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
       },
+      onCellClick (event, e) {
+        console.log(event, e)
+      },
       updateVueCal () {
         this.events = []
         if (localStorage.tlEventName) {
           var tlEvent = localStorage.tlEventName.split(',')
           for (let eventName in tlEvent) {
-            console.log(eventName)
+            // console.log(eventName)
             var eventData = (localStorage[tlEvent[eventName]]).split(',')
-            console.log('testhhh', eventData)
             var color = 'leisure'
             if (eventData[3]) {
               for (var index in config.workData()) {
                 var item = config.workData()[index]
                 if (item.type === eventData[3]) {
-                  console.log(item)
                   color = item.color
                 }
               }

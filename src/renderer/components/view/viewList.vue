@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import config from '@/components/config/config'
+// import config from '@/components/config/config'
 import eventEdit from '@/components/event/eventEdit'
 export default {
   components: {
@@ -54,18 +54,15 @@ export default {
       if (localStorage.tlEventName) {
         var tlEvent = localStorage.tlEventName.split(',')
         for (let eventName in tlEvent) {
-          console.log(eventName)
           var eventData = (localStorage[tlEvent[eventName]]).split(',')
-          console.log('testhhh', eventData)
-          if (eventData[3]) {
-            for (var index in config.workData()) {
-              var item = config.workData()[index]
-              if (item.type === eventData[3]) {
-                console.log(item)
-              }
-            }
-          }
-          console.log(eventData)
+          // if (eventData[3]) {
+          //   for (var index in config.workData()) {
+          //     var item = config.workData()[index]
+          //     if (item.type === eventData[3]) {
+          //       console.log(item)
+          //     }
+          //   }
+          // }
           if (eventData[0]) {
             this.tableData.push({
               start: eventData[0],

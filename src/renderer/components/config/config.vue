@@ -4,6 +4,7 @@ export default {
     this.tlWork = [
       {type: 'work', color: 'leisure'},
       {type: 'health', color: 'health'},
+      {type: '加班', color: 'leisure'},
       {type: 'sport', color: 'sport'}
     ]
     if (localStorage.tlNewWorkType) {
