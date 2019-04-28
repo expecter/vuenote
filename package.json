@@ -65,7 +65,7 @@
     "materialize-css": "^1.0.0",
     "v-dialogs": "^2.0.3",
     "vue": "^2.5.16",
-    "vue-cal": "^1.49.0",
+    "vue-cal": "^1.55.2",
     "vue-localstorage": "^0.6.2",
     "vuetify": "^1.5.11",
     "xlsx": "^0.14.2"

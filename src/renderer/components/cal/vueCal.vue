@@ -4,7 +4,6 @@
     xsmall
     
     :events="events"
-    editable-events
     locale="zh-cn"
     style="height: 400px"
     :disable-views="['years']"
@@ -35,8 +34,7 @@
         selectedEvent: {},
         showDialog: 0,
         eventId: '',
-        events: [
-        ]
+        events: []
       }
     },
     created: function () {
@@ -56,6 +54,9 @@
         this.showDialog = this.showDialog + 1
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
+      },
+      logEvents (event, e) {
+        console.log(event, e)
       },
       onCellClick (event, e) {
         console.log(event, e)
@@ -87,6 +88,14 @@
             }
           }
         }
+        // this.events.push({
+        //   start: '2019-04-19 00:00',
+        //   end: '2019-04-23 00:00',
+        //   title: '哈哈哈哈',
+        //   // content: '<i class="v-icon material-icons">local_hospital</i>',
+        //   class: 'health'
+        // })
+        console.log(this.events)
       }
     }
   }
