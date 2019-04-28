@@ -50,6 +50,8 @@ export default {
     handleClose (tag) {
       config.delWorkData(tag.type)
       this.dynamicTags = config.workData()
+      let setEvent = new Event('setTypeEvent')
+      window.dispatchEvent(setEvent)
     },
 
     showInput () {
@@ -69,6 +71,8 @@ export default {
       console.log(this.dynamicTags)
       this.inputVisible = false
       this.inputValue = ''
+      let setEvent = new Event('setTypeEvent')
+      window.dispatchEvent(setEvent)
     }
   }
 }

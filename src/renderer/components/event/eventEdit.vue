@@ -92,6 +92,11 @@ export default {
   },
   props: ['eventId', 'showDialog'],
   created: function () {
+    let self = this
+    window.addEventListener('setTypeEvent', function (e) {
+      self.localesList = config.workData()
+    })
+    self.localesList = config.workData()
   },
   watch: {
     // eventId () {
