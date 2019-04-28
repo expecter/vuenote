@@ -19,14 +19,23 @@
     </el-table-column>
     <el-table-column
       prop="title"
-      label="标题">
+      label="事件">
     </el-table-column>
+    <el-table-column
+      prop="eventType"
+      label="类型">
+    </el-table-column>
+    
   </el-table>
 </template>
 
 <script>
 import config from '@/components/config/config'
+import eventEdit from '@/components/event/eventEdit'
 export default {
+  components: {
+    eventEdit
+  },
   data () {
     return {
       tableData: []
@@ -62,6 +71,7 @@ export default {
               start: eventData[0],
               end: eventData[1],
               title: eventData[2],
+              eventType: eventData[3],
               eventId: tlEvent[eventName]
             })
           }
