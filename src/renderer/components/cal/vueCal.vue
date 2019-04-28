@@ -22,6 +22,9 @@
   import 'vue-cal/dist/vuecal.css'
   import eventEdit from '@/components/event/eventEdit'
   import config from '@/components/config/config'
+  let padLeftZero = function (str) {
+    return ('00' + str).substr(str.length)
+  }
   export default {
     name: 'electronui',
     components: {
@@ -61,6 +64,25 @@
       onCellClick (event, e) {
         console.log(event, e)
       },
+      formatDate (date, fmt) {
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+        }
+        let o = {
+          'M+': date.getMonth() + 1,
+          'd+': date.getDate(),
+          'h+': date.getHours(),
+          'm+': date.getMinutes(),
+          's+': date.getSeconds()
+        }
+        for (let k in o) {
+          if (new RegExp(`(${k})`).test(fmt)) {
+            let str = o[k] + ''
+            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str))
+          }
+        }
+        return fmt
+      },
       updateVueCal () {
         this.events = []
         if (localStorage.tlEventName) {
@@ -77,10 +99,16 @@
                 }
               }
             }
+            var eventTime = new Date(eventData[1])
+            if (eventTime.getHours() === 0 & eventTime.getMinutes() === 0) {
+              eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
+            }
+            console.log(eventTime)
+            var endTime = this.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
             if (eventData[0]) {
               this.events.push({
                 start: eventData[0],
-                end: eventData[1],
+                end: endTime,
                 title: eventData[2],
                 class: color,
                 eventId: tlEvent[eventName]
