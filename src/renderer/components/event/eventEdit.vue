@@ -4,9 +4,9 @@
   :visible.sync="mgshowDialog"
   width="60%">
   <div>
-    <el-form ref="form" :model="form" label-width="80px">    
-    <el-form-item label="活动名称">
-      <el-input v-model="msg" placeholder="请输入内容" style="width: 100%;"></el-input>
+    <el-form ref="form" :model="form" :rules = "rules" label-width="80px">    
+    <el-form-item label="活动名称" prop="name">
+      <el-input v-model="form.name" placeholder="请输入内容" style="width: 100%;"></el-input>
     </el-form-item>    
       <el-form-item label="活动时间">
         <el-date-picker
@@ -25,7 +25,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="eventAdd" v-show = "!inEditView">新增</el-button>
+        <el-button @click="formsubmit" v-show = "!inEditView">新增</el-button>
         <el-button @click="eventUpdate" v-show = "inEditView">编辑</el-button>
         <el-button @click="eventDelete" v-show = "inEditView">删除</el-button>
       </el-form-item>      
@@ -35,6 +35,16 @@
 </template>
 <script>
 import config from '@/components/config/config'
+let formsubmit = function () {
+  this.$refs['form'].validate((valid) => {
+    console.log('valid', valid)
+    if (valid) {
+      this.eventAdd()
+    } else {
+      return false
+    }
+  })
+}
 let eventAdd = function () {
   var eventName = 'evN_1'
   if (localStorage.tlEventName) {
@@ -48,7 +58,7 @@ let eventAdd = function () {
   } else {
     localStorage.tlEventName = [eventName]
   }
-  localStorage[eventName] = [this.value2[0], this.value2[1], this.msg, this.locale]
+  localStorage[eventName] = [this.value2[0], this.value2[1], this.form.name, this.locale]
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
   this.mgshowDialog = false
@@ -56,7 +66,7 @@ let eventAdd = function () {
 let eventUpdate = function () {
   console.log('this.value2', this.value2)
   // localStorage[this.eventId] = [this.formatDate(this.value2[0], 'yyyy-MM-dd hh:mm'), this.formatDate(this.value2[1], 'yyyy-MM-dd hh:mm'), this.msg]
-  localStorage[this.eventId] = [this.value2[0], this.value2[1], this.msg, this.locale]
+  localStorage[this.eventId] = [this.value2[0], this.value2[1], this.form.name, this.locale]
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
   this.mgshowDialog = false
@@ -87,7 +97,15 @@ export default {
       value2: '',
       modelValue: '',
       msg: '',
-      form: {}
+      form: {
+        name: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ]
+      }
     }
   },
   props: ['eventId', 'showDialog'],
@@ -115,7 +133,7 @@ export default {
         this.inEditView = true
         var eventData = (localStorage[this.eventId]).split(',')
         this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
-        this.msg = eventData[2]
+        this.form.name = eventData[2]
         if (eventData.length > 3) {
           this.locale = eventData[3]
         }
@@ -130,6 +148,7 @@ export default {
     eventAdd,
     eventDelete,
     eventUpdate,
+    formsubmit,
     formatDate (date, fmt) {
       if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
