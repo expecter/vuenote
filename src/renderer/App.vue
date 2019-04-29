@@ -80,7 +80,7 @@
       } else {
         localStorage.tlEventName = [eventName]
       }
-      localStorage[eventName] = [startTime, endTime, '加班', 'work']
+      localStorage[eventName] = [startTime, endTime, '加班', '加班']
       let setEvent = new Event('setItemEvent')
       window.dispatchEvent(setEvent)
     }

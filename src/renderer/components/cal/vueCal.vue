@@ -100,7 +100,7 @@
               }
             }
             var eventTime = new Date(eventData[1])
-            if (eventTime.getHours() === 0 & eventTime.getMinutes() === 0) {
+            if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
               eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
             }
             console.log(eventTime)
