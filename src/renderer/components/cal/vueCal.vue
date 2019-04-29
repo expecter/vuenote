@@ -37,6 +37,7 @@
         selectedEvent: {},
         showDialog: 0,
         eventId: '',
+        selectedDate: '',
         events: []
       }
     },
@@ -58,11 +59,10 @@
         // Prevent navigating to narrower view (default vue-cal behavior).
         e.stopPropagation()
       },
-      logEvents (event, e) {
-        console.log(event, e)
-      },
-      onCellClick (event, e) {
-        console.log(event, e)
+      onCellClick (event) {
+        // console.log(event, e)
+        self.selectedDate = event
+        sessionStorage.setItem('selectedDate', event.getTime() / 1000)
       },
       formatDate (date, fmt) {
         if (/(y+)/.test(fmt)) {
