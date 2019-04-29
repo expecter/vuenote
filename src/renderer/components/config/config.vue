@@ -2,15 +2,21 @@
 export default {
   workData: function () {
     this.tlWork = [
-      {type: 'work', color: 'leisure'},
-      {type: 'health', color: 'health'},
-      {type: '加班', color: 'leisure'},
-      {type: 'sport', color: 'sport'}
+      {type: '加班', color: 'leisure'}
     ]
     if (localStorage.tlNewWorkType) {
       var tlEvent = localStorage.tlNewWorkType.split(',')
       for (let event in tlEvent) {
-        this.tlWork.push({type: tlEvent[event], color: 'leisure'})
+        var needAdd = true
+        for (let index in this.tlWork) {
+          if (this.tlWork[index].type === tlEvent[event]) {
+            needAdd = false
+            break
+          }
+        }
+        if (needAdd) {
+          this.tlWork.push({type: tlEvent[event], color: 'leisure'})
+        }
       }
     }
     return this.tlWork

@@ -23,6 +23,7 @@
 </template>
 <script>
 // import XLSX from 'xlsx'
+import config from '@/components/config/config'
 export default {
   data () {
     return {
@@ -54,6 +55,9 @@ export default {
         for (let index in jsonObj) {
           var objData = jsonObj[index]
           console.log(objData)
+          if (objData[3]) {
+            config.addWorkData(objData[3])
+          }
           var eventName = 'evN_1'
           if (localStorage.tlEventName) {
             var tlEvent = localStorage.tlEventName.split(',')
@@ -68,6 +72,8 @@ export default {
           }
           localStorage[eventName] = objData
           let setEvent = new Event('setItemEvent')
+          window.dispatchEvent(setEvent)
+          setEvent = new Event('setTypeEvent')
           window.dispatchEvent(setEvent)
         }
         this.mgshowDialog = false
