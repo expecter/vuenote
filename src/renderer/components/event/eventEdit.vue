@@ -97,6 +97,8 @@ export default {
       self.localesList = config.workData()
     })
     self.localesList = config.workData()
+    this.modelValue = [new Date(), new Date()]
+    this.locale = self.localesList[0].type
   },
   watch: {
     // eventId () {
