@@ -34,8 +34,16 @@
       prop="eventType"
       label="类型">
     </el-table-column>
-    
+     <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+    <template slot-scope="scope">
+    <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+    </template>
+    </el-table-column>
   </el-table>
+  <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
 </div>
 </template>
 
@@ -50,7 +58,9 @@ export default {
     return {
       tableData: [],
       options: [],
-      value: 'all'
+      value: 'all',
+      showDialog: 0,
+      eventId: ''
     }
   },
   created: function () {
@@ -73,6 +83,10 @@ export default {
     updateVueType: function () {
       this.options = [{type: 'all'}]
       this.options = this.options.concat(config.workData())
+    },
+    handleClick: function (row) {
+      this.eventId = row.eventId
+      this.showDialog = this.showDialog + 1
     },
     updateVueCal: function () {
       this.tableData = []
