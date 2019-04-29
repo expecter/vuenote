@@ -1,4 +1,8 @@
 <template>
+<el-dialog
+  title="提示"
+  :visible.sync="mgshowDialog"
+  width="60%">
   <div>
       <el-upload
   class="upload-demo"
@@ -12,17 +16,21 @@
   :on-exceed="handleExceed"
   :file-list="fileList">
   <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+  <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
 </el-upload>
   </div>
+</el-dialog>
 </template>
 <script>
+// import XLSX from 'xlsx'
 export default {
   data () {
     return {
-      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+      mgshowDialog: false,
+      fileList: []
     }
   },
+  props: ['showUploadDialog'],
   methods: {
     handleRemove (file, fileList) {
       console.log(file, fileList)
@@ -44,11 +52,17 @@ export default {
         if (err) throw err
         console.log(dataStr)
       })
+      // var XLSX = require('xlsx')
+      // let obj = XLSX.parse(file.raw.path)
+      // console.log(obj)
     }
   },
   watch: {
     fileList (data) {
       console.log(data)
+    },
+    showUploadDialog () {
+      this.mgshowDialog = true
     }
   }
 }

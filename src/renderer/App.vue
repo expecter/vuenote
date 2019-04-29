@@ -20,12 +20,13 @@
       </el-main>
         <eventEdit :showDialog = showDialog></eventEdit>
         <typeEdit :showTypeDialog = showTypeDialog></typeEdit>
+        <fileupload :showUploadDialog = showUploadDialog></fileupload>
         <el-footer>
             <el-button @click="addEventPanel" round>添加事件</el-button>
             <el-button @click="showTypePanel" round>添加分类</el-button>
             <el-button @click="exportExcel" round>导出事件</el-button>
             <el-button @click="addwork" round>加班</el-button>
-            <!-- <el-button @click="addEventPanel" round>导入事件</el-button> -->
+            <el-button @click="showUploadPanel" round>导入事件</el-button>
             <!-- <el-button @click="addEventPanel" round>事件追踪</el-button> -->
         </el-footer>
         </el-container>
@@ -46,13 +47,16 @@
   // import filedown from '@/components/filedown'
   import fileupload from '@/components/fileupload'
   import util from '@/components/util/util'
-  // import FileSaver from 'file-saver'
+  import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
   }
   let showTypePanel = function () {
     this.showTypeDialog = this.showTypeDialog + 1
+  }
+  let showUploadPanel = function () {
+    this.showUploadDialog = this.showUploadDialog + 1
   }
   let showVueCalView = function () {
 
@@ -129,14 +133,13 @@
     if (localStorage.tlEventName) {
       var tlEvent = localStorage.tlEventName.split(',')
       for (let eventName in tlEvent) {
-        console.log(eventName)
         var eventData = (localStorage[tlEvent[eventName]]).split(',')
         if (eventData[0]) {
           this.events.push([
             eventData[0],
             eventData[1],
             eventData[2],
-            tlEvent[eventName]
+            eventData[3]
           ])
         }
       }
@@ -144,6 +147,9 @@
     console.log(this.events)
     var sheet = XLSX.utils.aoa_to_sheet(this.events)
     openDownloadDialog(sheet2blob(sheet), '导出.xlsx')
+    const data = JSON.stringify(this.events)
+    const blob = new Blob([data], {type: ''})
+    FileSaver.saveAs(blob, 'hahaha.json')
     // var wbout = XLSX.write(wb, {
     //   bookType: 'xlsx',
     //   bookSST: true,
@@ -195,6 +201,7 @@
       return {
         showDialog: 1,
         showTypeDialog: 1,
+        showUploadDialog: 1,
         links: [
           {
             text: '日历',
@@ -220,6 +227,7 @@
       exportExcel,
       sheet2blob,
       openDownloadDialog,
+      showUploadPanel,
       addwork
     }
   }
