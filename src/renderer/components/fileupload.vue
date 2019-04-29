@@ -50,7 +50,27 @@ export default {
       const fs = require('fs')
       fs.readFile(file.raw.path, 'utf-8', (err, dataStr) => {
         if (err) throw err
-        console.log(dataStr)
+        var jsonObj = JSON.parse(dataStr)
+        for (let index in jsonObj) {
+          var objData = jsonObj[index]
+          console.log(objData)
+          var eventName = 'evN_1'
+          if (localStorage.tlEventName) {
+            var tlEvent = localStorage.tlEventName.split(',')
+            var lastElement = tlEvent[tlEvent.length - 1]
+            var tlIndex = lastElement.split('_')
+            var nextIndex = parseInt(tlIndex[1]) + 1
+            eventName = 'evN_' + nextIndex
+            tlEvent.push(eventName)
+            localStorage.tlEventName = tlEvent
+          } else {
+            localStorage.tlEventName = [eventName]
+          }
+          localStorage[eventName] = objData
+          let setEvent = new Event('setItemEvent')
+          window.dispatchEvent(setEvent)
+        }
+        this.mgshowDialog = false
       })
       // var XLSX = require('xlsx')
       // let obj = XLSX.parse(file.raw.path)

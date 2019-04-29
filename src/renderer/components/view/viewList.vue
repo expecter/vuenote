@@ -92,7 +92,6 @@ export default {
             }
           } else {
             if (eventData[0] && this.value === eventData[3]) {
-              console.log('bbbbbbbbbbbbbbbbbb')
               this.tableData.push({
                 start: eventData[0],
                 end: eventData[1],

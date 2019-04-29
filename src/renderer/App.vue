@@ -24,7 +24,8 @@
         <el-footer>
             <el-button @click="addEventPanel" round>添加事件</el-button>
             <el-button @click="showTypePanel" round>添加分类</el-button>
-            <el-button @click="exportExcel" round>导出事件</el-button>
+            <el-button @click="exportExcel" round>导出excel</el-button>
+            <el-button @click="exportJson" round>导出json</el-button>
             <el-button @click="addwork" round>加班</el-button>
             <el-button @click="showUploadPanel" round>导入事件</el-button>
             <!-- <el-button @click="addEventPanel" round>事件追踪</el-button> -->
@@ -146,10 +147,7 @@
     }
     console.log(this.events)
     var sheet = XLSX.utils.aoa_to_sheet(this.events)
-    openDownloadDialog(sheet2blob(sheet), '导出.xlsx')
-    const data = JSON.stringify(this.events)
-    const blob = new Blob([data], {type: ''})
-    FileSaver.saveAs(blob, 'hahaha.json')
+    openDownloadDialog(sheet2blob(sheet), 'export.xlsx')
     // var wbout = XLSX.write(wb, {
     //   bookType: 'xlsx',
     //   bookSST: true,
@@ -164,6 +162,27 @@
     //   if (typeof console !== 'undefined') console.log(e, wbout)
     // }
     // return wbout
+  }
+  let exportJson = function () {
+    this.events = []
+    if (localStorage.tlEventName) {
+      var tlEvent = localStorage.tlEventName.split(',')
+      for (let eventName in tlEvent) {
+        var eventData = (localStorage[tlEvent[eventName]]).split(',')
+        if (eventData[0]) {
+          this.events.push([
+            eventData[0],
+            eventData[1],
+            eventData[2],
+            eventData[3]
+          ])
+        }
+      }
+    }
+    console.log(this.events)
+    const data = JSON.stringify(this.events)
+    const blob = new Blob([data], {type: ''})
+    FileSaver.saveAs(blob, 'export.json')
   }
   let readFile = function () {
     // const fs = require('fs')
@@ -225,6 +244,7 @@
       showViewListView,
       readFile,
       exportExcel,
+      exportJson,
       sheet2blob,
       openDownloadDialog,
       showUploadPanel,
