@@ -2,7 +2,8 @@
 export default {
   workData: function () {
     this.tlWork = [
-      {type: '加班', color: 'leisure'}
+      {type: '加班', color: 'leisure'},
+      {type: '工作', color: 'leisure'}
     ]
     if (localStorage.tlNewWorkType) {
       var tlEvent = localStorage.tlNewWorkType.split(',')

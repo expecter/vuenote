@@ -1,5 +1,13 @@
 <template>
 <div>
+    <el-select v-model="value" placeholder="请选择">
+      <el-option
+        v-for="item in options"
+        :key="item.type"
+        :label="item.type"
+        :value="item.type">
+      </el-option>
+    </el-select>
     <vue-cal class="vuecal--green-theme"
     xsmall
     
@@ -38,7 +46,9 @@
         showDialog: 0,
         eventId: '',
         selectedDate: '',
-        events: []
+        value: 'all',
+        events: [],
+        options: []
       }
     },
     created: function () {
@@ -47,10 +57,23 @@
         self.updateVueCal()
       })
       this.updateVueCal()
+      window.addEventListener('setTypeEvent', function (e) {
+        self.updateVueType()
+      })
+      this.updateVueType()
     },
     mounted () {
     },
+    watch: {
+      value () {
+        this.updateVueCal()
+      }
+    },
     methods: {
+      updateVueType: function () {
+        this.options = [{type: 'all'}]
+        this.options = this.options.concat(config.workData())
+      },
       onEventClick (event, e) {
         // this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
         this.selectedEvent = event
@@ -103,16 +126,27 @@
             if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
               eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
             }
-            console.log(eventTime)
             var endTime = this.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
-            if (eventData[0]) {
-              this.events.push({
-                start: eventData[0],
-                end: endTime,
-                title: eventData[2],
-                class: color,
-                eventId: tlEvent[eventName]
-              })
+            if (this.value === 'all') {
+              if (eventData[0]) {
+                this.events.push({
+                  start: eventData[0],
+                  end: endTime,
+                  title: eventData[2],
+                  class: color,
+                  eventId: tlEvent[eventName]
+                })
+              }
+            } else {
+              if (eventData[0] && this.value === eventData[3]) {
+                this.events.push({
+                  start: eventData[0],
+                  end: endTime,
+                  title: eventData[2],
+                  class: color,
+                  eventId: tlEvent[eventName]
+                })
+              }
             }
           }
         }
