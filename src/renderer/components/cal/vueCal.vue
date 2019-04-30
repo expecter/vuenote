@@ -10,14 +10,13 @@
     </el-select>
     <vue-cal class="vuecal--green-theme"
     xsmall
-    
     :events="events"
     locale="zh-cn"
     style="height: 400px"
-    :disable-views="['years']"
+    :disable-views="['years','day']"
     :no-event-overlaps="true"
     :on-event-click="onEventClick"
-    @cell-focus="onCellClick"
+    @cell-click="onCellClick"
     >
     </vue-cal>
     <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
@@ -30,6 +29,7 @@
   import 'vue-cal/dist/vuecal.css'
   import eventEdit from '@/components/event/eventEdit'
   import config from '@/components/config/config'
+  // import util from '@/components/util/util'
   let padLeftZero = function (str) {
     return ('00' + str).substr(str.length)
   }
@@ -83,9 +83,10 @@
         e.stopPropagation()
       },
       onCellClick (event) {
-        console.log(event, 'testAAAA')
-        self.selectedDate = event
+        // var curTime = event.getTime() / 1000
         sessionStorage.setItem('selectedDate', event.getTime() / 1000)
+        this.eventId = null
+        this.showDialog = this.showDialog + 1
       },
       formatDate (date, fmt) {
         if (/(y+)/.test(fmt)) {

@@ -35,6 +35,7 @@
 </template>
 <script>
 import config from '@/components/config/config'
+import util from '@/components/util/util'
 let formsubmit = function () {
   this.$refs['form'].validate((valid) => {
     console.log('valid', valid)
@@ -136,6 +137,18 @@ export default {
         if (eventData.length > 3) {
           this.locale = eventData[3]
         }
+      }
+      var curTime = sessionStorage.getItem('selectedDate')
+      if (curTime) {
+        this.inEditView = false
+        var startDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime())
+        var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+        var startTime = util.formatDate(new Date(startDate), 'yyyy-MM-dd hh:mm')
+        var endTime = util.formatDate(new Date(endDate), 'yyyy-MM-dd hh:mm')
+        this.modelValue = [new Date(startTime), new Date(endTime)]
+        this.form.name = '加班'
+        this.locale = '加班'
+        sessionStorage.removeItem('selectedDate')
       }
     },
     modelValue (val) {

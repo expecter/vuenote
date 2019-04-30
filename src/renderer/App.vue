@@ -26,8 +26,8 @@
             <el-button @click="showTypePanel" round>添加分类</el-button>
             <el-button @click="exportExcel" round>导出excel</el-button>
             <el-button @click="exportJson" round>导出json</el-button>
-            <el-button @click="addwork" round>加班</el-button>
-            <el-button @click="showUploadPanel" round>导入事件</el-button>
+            <!-- <el-button @click="addwork" round>加班</el-button> -->
+            <el-button @click="showUploadPanel" round>导入json</el-button>
             <!-- <el-button @click="addEventPanel" round>事件追踪</el-button> -->
         </el-footer>
         </el-container>
