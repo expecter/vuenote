@@ -237,7 +237,7 @@
       }
     },
     created: function () {
-      console.log('AAAAAAA', util.getCurDayZeroTime())
+      // console.log('AAAAAAA', util.getCurDayZeroTime())
     },
     methods: {
       addEventPanel,

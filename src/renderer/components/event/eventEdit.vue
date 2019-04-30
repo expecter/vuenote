@@ -119,14 +119,6 @@ export default {
     this.locale = self.localesList[0].type
   },
   watch: {
-    // eventId () {
-    //   if (this.eventId) {
-    //     this.inEditView = true
-    //     var eventData = (localStorage[this.eventId]).split(',')
-    //     this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
-    //     this.value2 = [eventData[0], eventData[1]]
-    //   }
-    // },
     showDialog () {
       this.mgshowDialog = true
       if (this.eventId) {
