@@ -69,10 +69,12 @@
     var curTime = sessionStorage.getItem('selectedDate')
     if (curTime) {
       // curTime = new Date(curTime)
-      var startDate = curTime - (curTime) % 86400 - 8 * 3600
-      var endDate = curTime - (curTime) % 86400 + 16 * 3600
-      var startTime = util.formatDate(new Date(startDate * 1000), 'yyyy-MM-dd hh:mm')
-      var endTime = util.formatDate(new Date(endDate * 1000), 'yyyy-MM-dd hh:mm')
+      // console.log(curTime, (curTime) % 86400)
+      // console.log(new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime()))
+      var startDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime())
+      var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+      var startTime = util.formatDate(new Date(startDate), 'yyyy-MM-dd hh:mm')
+      var endTime = util.formatDate(new Date(endDate), 'yyyy-MM-dd hh:mm')
       var eventName = 'evN_1'
       if (localStorage.tlEventName) {
         var tlEvent = localStorage.tlEventName.split(',')
@@ -235,6 +237,7 @@
       }
     },
     created: function () {
+      console.log('AAAAAAA', util.getCurDayZeroTime())
     },
     methods: {
       addEventPanel,

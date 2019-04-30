@@ -21,6 +21,10 @@ export default {
       }
     }
     return fmt
+  },
+  getCurDayZeroTime () {
+    var start = new Date(new Date(new Date().toLocaleDateString()).getTime())
+    return start
   }
 }
 </script>

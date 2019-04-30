@@ -83,7 +83,7 @@
         e.stopPropagation()
       },
       onCellClick (event) {
-        // console.log(event, e)
+        console.log(event, 'testAAAA')
         self.selectedDate = event
         sessionStorage.setItem('selectedDate', event.getTime() / 1000)
       },
