@@ -150,6 +150,15 @@ export default {
         this.locale = '加班'
         sessionStorage.removeItem('selectedDate')
       }
+      if (!this.eventId && !curTime) {
+        var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
+        var endDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+        var startTime1 = util.formatDate(new Date(startDate1), 'yyyy-MM-dd hh:mm')
+        var endTime1 = util.formatDate(new Date(endDate1), 'yyyy-MM-dd hh:mm')
+        this.modelValue = [new Date(startTime1), new Date(endTime1)]
+        this.form.name = ''
+        this.locale = '工作'
+      }
     },
     modelValue (val) {
       this.value2 = [this.formatDate(val[0], 'yyyy-MM-dd hh:mm'), this.formatDate(val[1], 'yyyy-MM-dd hh:mm')]
