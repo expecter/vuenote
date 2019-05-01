@@ -23,8 +23,8 @@
 </template>
 <script>
 // import XLSX from 'xlsx'
-import config from '@/components/config/config'
-import {addEvent} from '@/obj/localCache'
+import typeCache from '@/obj/typeCache'
+import localCache from '@/obj/localCache'
 export default {
   data () {
     return {
@@ -57,9 +57,9 @@ export default {
           var objData = jsonObj[index]
           console.log(objData)
           if (objData[3]) {
-            config.addWorkData(objData[3])
+            typeCache.addWorkData(objData[3])
           }
-          addEvent(objData)
+          localCache.addEvent(objData)
           let setEvent = new Event('setTypeEvent')
           window.dispatchEvent(setEvent)
         }

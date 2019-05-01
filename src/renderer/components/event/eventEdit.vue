@@ -34,9 +34,9 @@
 </el-dialog>
 </template>
 <script>
-import config from '@/components/config/config'
 import {formatDate} from '@/util/util'
-import {addEvent, updateEvent, deleteEvent} from '@/obj/localCache'
+import localCache from '@/obj/localCache'
+import typeCache from '@/obj/typeCache'
 let formsubmit = function () {
   this.$refs['form'].validate((valid) => {
     console.log('valid', valid)
@@ -48,23 +48,23 @@ let formsubmit = function () {
   })
 }
 let eventAdd = function () {
-  addEvent([this.value2[0], this.value2[1], this.form.name, this.locale])
+  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale])
   this.mgshowDialog = false
 }
 let eventUpdate = function () {
-  updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale])
+  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale])
   this.mgshowDialog = false
 }
 
 let eventDelete = function () {
-  deleteEvent(this.eventId)
+  localCache.deleteEvent(this.eventId)
   this.mgshowDialog = false
 }
 
 export default {
   data () {
     return {
-      localesList: config.workData(),
+      localesList: typeCache.workData(),
       inEditView: false,
       mgshowDialog: false,
       locale: '',
@@ -85,9 +85,9 @@ export default {
   created: function () {
     let self = this
     window.addEventListener('setTypeEvent', function (e) {
-      self.localesList = config.workData()
+      self.localesList = typeCache.workData()
     })
-    self.localesList = config.workData()
+    self.localesList = typeCache.workData()
     this.modelValue = [new Date(), new Date()]
     this.locale = self.localesList[0].type
   },

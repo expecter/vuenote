@@ -1,4 +1,3 @@
-<script>
 export default {
   workData: function () {
     this.tlWork = [
@@ -33,6 +32,8 @@ export default {
     } else {
       localStorage.tlNewWorkType = val
     }
+    let setEvent = new Event('setTypeEvent')
+    window.dispatchEvent(setEvent)
   },
   delWorkData: function (val) {
     if (localStorage.tlNewWorkType) {
@@ -42,6 +43,7 @@ export default {
       }
       localStorage.tlNewWorkType = tlEvent
     }
+    let setEvent = new Event('setTypeEvent')
+    window.dispatchEvent(setEvent)
   }
 }
-</script>

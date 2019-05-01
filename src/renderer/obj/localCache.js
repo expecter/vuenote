@@ -51,7 +51,7 @@ function deleteEvent (eventName) {
   let setEvent = new Event('setItemEvent')
   window.dispatchEvent(setEvent)
 }
-export {
+export default {
   getTlEvent,
   addEvent,
   updateEvent,

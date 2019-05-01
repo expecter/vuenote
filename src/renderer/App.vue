@@ -45,7 +45,7 @@
   import fileupload from '@/components/fileupload'
   // import {formatDate} from '@/util/util'
   import FileSaver from 'file-saver'
-  import {getTlEvent} from '@/obj/localCache'
+  import localCache from '@/obj/localCache'
   import {myFun} from '@/obj/eventObj'
   import XLSX from 'xlsx'
   let addEventPanel = function () {
@@ -98,7 +98,7 @@
   }
   let exportExcel = function () {
     var events = [['开始时间', '结束时间', '事件', '类型']]
-    events = events.concat(getTlEvent())
+    events = events.concat(localCache.getTlEvent())
     var sheet = XLSX.utils.aoa_to_sheet(events)
     openDownloadDialog(sheet2blob(sheet), 'export.xlsx')
     // var wbout = XLSX.write(wb, {
@@ -117,7 +117,7 @@
     // return wbout
   }
   let exportJson = function () {
-    var events = getTlEvent()
+    var events = localCache.getTlEvent()
     const data = JSON.stringify(events)
     const blob = new Blob([data], {type: ''})
     FileSaver.saveAs(blob, 'export.json')

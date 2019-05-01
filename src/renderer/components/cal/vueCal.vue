@@ -28,7 +28,7 @@
   import VueCal from 'vue-cal'
   import 'vue-cal/dist/vuecal.css'
   import eventEdit from '@/components/event/eventEdit'
-  import config from '@/components/config/config'
+  import typeCache from '@/obj/typeCache'
   // import util from '@/components/util/util'
   let padLeftZero = function (str) {
     return ('00' + str).substr(str.length)
@@ -72,7 +72,7 @@
     methods: {
       updateVueType: function () {
         this.options = [{type: 'all'}]
-        this.options = this.options.concat(config.workData())
+        this.options = this.options.concat(typeCache.workData())
       },
       onEventClick (event, e) {
         // this.$vDialog.alert('This is a <b>Vue</b> dialog plugin: vDialog!')
@@ -116,8 +116,8 @@
             var eventData = (localStorage[tlEvent[eventName]]).split(',')
             var color = 'leisure'
             if (eventData[3]) {
-              for (var index in config.workData()) {
-                var item = config.workData()[index]
+              for (var index in typeCache.workData()) {
+                var item = typeCache.workData()[index]
                 if (item.type === eventData[3]) {
                   color = item.color
                 }

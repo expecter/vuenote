@@ -26,16 +26,16 @@
 </el-dialog>
 </template>
 <script>
-import config from '@/components/config/config'
+import typeCache from '@/obj/typeCache'
 export default {
   data () {
     return {
-      localesList: config.workData(),
+      localesList: typeCache.workData(),
       mgshowDialog: false,
       locale: '',
       msg: '',
       form: {},
-      dynamicTags: config.workData(),
+      dynamicTags: typeCache.workData(),
       inputVisible: false,
       inputValue: ''
     }
@@ -48,10 +48,8 @@ export default {
   },
   methods: {
     handleClose (tag) {
-      config.delWorkData(tag.type)
-      this.dynamicTags = config.workData()
-      let setEvent = new Event('setTypeEvent')
-      window.dispatchEvent(setEvent)
+      typeCache.delWorkData(tag.type)
+      this.dynamicTags = typeCache.workData()
     },
 
     showInput () {
@@ -66,13 +64,10 @@ export default {
       // if (inputValue) {
       //   this.dynamicTags.push(inputValue)
       // }
-      config.addWorkData(inputValue)
-      this.dynamicTags = config.workData()
-      console.log(this.dynamicTags)
+      typeCache.addWorkData(inputValue)
+      this.dynamicTags = typeCache.workData()
       this.inputVisible = false
       this.inputValue = ''
-      let setEvent = new Event('setTypeEvent')
-      window.dispatchEvent(setEvent)
     }
   }
 }

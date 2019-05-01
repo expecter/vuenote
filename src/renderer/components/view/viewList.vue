@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import config from '@/components/config/config'
 import eventEdit from '@/components/event/eventEdit'
+import typeCache from '@/obj/typeCache'
 export default {
   components: {
     eventEdit
@@ -82,7 +82,7 @@ export default {
   methods: {
     updateVueType: function () {
       this.options = [{type: 'all'}]
-      this.options = this.options.concat(config.workData())
+      this.options = this.options.concat(typeCache.workData())
     },
     handleClick: function (row) {
       this.eventId = row.eventId
