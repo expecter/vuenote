@@ -2,7 +2,7 @@
 <el-dialog
   title="提示"
   :visible.sync="mgshowDialog"
-  width="60%">
+  width="80%">
   <div>
     <el-form ref="form" :model="form" :rules = "rules" label-width="80px">    
     <el-form-item label="活动名称" prop="name">
