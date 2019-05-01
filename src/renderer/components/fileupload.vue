@@ -24,6 +24,7 @@
 <script>
 // import XLSX from 'xlsx'
 import config from '@/components/config/config'
+import {addEvent} from '@/obj/localCache'
 export default {
   data () {
     return {
@@ -58,29 +59,12 @@ export default {
           if (objData[3]) {
             config.addWorkData(objData[3])
           }
-          var eventName = 'evN_1'
-          if (localStorage.tlEventName) {
-            var tlEvent = localStorage.tlEventName.split(',')
-            var lastElement = tlEvent[tlEvent.length - 1]
-            var tlIndex = lastElement.split('_')
-            var nextIndex = parseInt(tlIndex[1]) + 1
-            eventName = 'evN_' + nextIndex
-            tlEvent.push(eventName)
-            localStorage.tlEventName = tlEvent
-          } else {
-            localStorage.tlEventName = [eventName]
-          }
-          localStorage[eventName] = objData
-          let setEvent = new Event('setItemEvent')
-          window.dispatchEvent(setEvent)
-          setEvent = new Event('setTypeEvent')
+          addEvent(objData)
+          let setEvent = new Event('setTypeEvent')
           window.dispatchEvent(setEvent)
         }
         this.mgshowDialog = false
       })
-      // var XLSX = require('xlsx')
-      // let obj = XLSX.parse(file.raw.path)
-      // console.log(obj)
     }
   },
   watch: {

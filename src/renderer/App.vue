@@ -26,7 +26,6 @@
             <el-button @click="showTypePanel" round>添加分类</el-button>
             <el-button @click="exportExcel" round>导出excel</el-button>
             <el-button @click="exportJson" round>导出json</el-button>
-            <!-- <el-button @click="addwork" round>加班</el-button> -->
             <el-button @click="showUploadPanel" round>导入json</el-button>
             <!-- <el-button @click="addEventPanel" round>事件追踪</el-button> -->
         </el-footer>
@@ -39,16 +38,15 @@
 </template>
 
 <script>
-  // import LandingPage from '@/components/LandingPage/historyView'
-  // import LandingPage from '@/components/pages/history'
-  // import vueCal from './components/cal/vueCal'
   import eventEdit from '@/components/event/eventEdit'
   import typeEdit from '@/components/event/typeEdit'
   // import { ipcRenderer } from 'electron'
   // import filedown from '@/components/filedown'
   import fileupload from '@/components/fileupload'
-  import util from '@/components/util/util'
+  // import {formatDate} from '@/util/util'
   import FileSaver from 'file-saver'
+  import {getTlEvent} from '@/obj/localCache'
+  import {myFun} from '@/obj/eventObj'
   import XLSX from 'xlsx'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
@@ -58,39 +56,6 @@
   }
   let showUploadPanel = function () {
     this.showUploadDialog = this.showUploadDialog + 1
-  }
-  let showVueCalView = function () {
-
-  }
-  let showViewListView = function () {
-
-  }
-  let addwork = function () {
-    var curTime = sessionStorage.getItem('selectedDate')
-    if (curTime) {
-      // curTime = new Date(curTime)
-      // console.log(curTime, (curTime) % 86400)
-      // console.log(new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime()))
-      var startDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime())
-      var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-      var startTime = util.formatDate(new Date(startDate), 'yyyy-MM-dd hh:mm')
-      var endTime = util.formatDate(new Date(endDate), 'yyyy-MM-dd hh:mm')
-      var eventName = 'evN_1'
-      if (localStorage.tlEventName) {
-        var tlEvent = localStorage.tlEventName.split(',')
-        var lastElement = tlEvent[tlEvent.length - 1]
-        var tlIndex = lastElement.split('_')
-        var nextIndex = parseInt(tlIndex[1]) + 1
-        eventName = 'evN_' + nextIndex
-        tlEvent.push(eventName)
-        localStorage.tlEventName = tlEvent
-      } else {
-        localStorage.tlEventName = [eventName]
-      }
-      localStorage[eventName] = [startTime, endTime, '加班', '加班']
-      let setEvent = new Event('setItemEvent')
-      window.dispatchEvent(setEvent)
-    }
   }
   let sheet2blob = function (sheet, sheetName) {
     sheetName = sheetName || 'sheet1'
@@ -132,23 +97,9 @@
     aLink.dispatchEvent(event)
   }
   let exportExcel = function () {
-    this.events = [['开始时间', '结束时间', '事件', '类型']]
-    if (localStorage.tlEventName) {
-      var tlEvent = localStorage.tlEventName.split(',')
-      for (let eventName in tlEvent) {
-        var eventData = (localStorage[tlEvent[eventName]]).split(',')
-        if (eventData[0]) {
-          this.events.push([
-            eventData[0],
-            eventData[1],
-            eventData[2],
-            eventData[3]
-          ])
-        }
-      }
-    }
-    console.log(this.events)
-    var sheet = XLSX.utils.aoa_to_sheet(this.events)
+    var events = [['开始时间', '结束时间', '事件', '类型']]
+    events = events.concat(getTlEvent())
+    var sheet = XLSX.utils.aoa_to_sheet(events)
     openDownloadDialog(sheet2blob(sheet), 'export.xlsx')
     // var wbout = XLSX.write(wb, {
     //   bookType: 'xlsx',
@@ -166,23 +117,8 @@
     // return wbout
   }
   let exportJson = function () {
-    this.events = []
-    if (localStorage.tlEventName) {
-      var tlEvent = localStorage.tlEventName.split(',')
-      for (let eventName in tlEvent) {
-        var eventData = (localStorage[tlEvent[eventName]]).split(',')
-        if (eventData[0]) {
-          this.events.push([
-            eventData[0],
-            eventData[1],
-            eventData[2],
-            eventData[3]
-          ])
-        }
-      }
-    }
-    console.log(this.events)
-    const data = JSON.stringify(this.events)
+    var events = getTlEvent()
+    const data = JSON.stringify(events)
     const blob = new Blob([data], {type: ''})
     FileSaver.saveAs(blob, 'export.json')
   }
@@ -237,21 +173,19 @@
       }
     },
     created: function () {
+      console.log(myFun())
       // console.log('AAAAAAA', util.getCurDayZeroTime())
     },
     methods: {
       addEventPanel,
       checkUpdate,
       showTypePanel,
-      showVueCalView,
-      showViewListView,
       readFile,
       exportExcel,
       exportJson,
       sheet2blob,
       openDownloadDialog,
-      showUploadPanel,
-      addwork
+      showUploadPanel
     }
   }
 </script>
