@@ -7,7 +7,12 @@
     <el-form ref="form" :model="form" :rules = "rules" label-width="80px">    
     <el-form-item label="活动名称" prop="name">
       <el-input v-model="form.name" placeholder="请输入内容" style="width: 100%;"></el-input>
-    </el-form-item>    
+    </el-form-item>
+      <el-form-item label="时间类型">
+        <el-select v-model = 'timeType' placeholder="请选择活动区域" style="width: 100%;">
+          <el-option  v-for="item in timeTypeList" :label="item.text" :value="item.type" :key="item.type"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="活动时间">
         <el-date-picker
           v-model="modelValue"
@@ -65,9 +70,11 @@ export default {
   data () {
     return {
       localesList: typeCache.workData(),
+      timeTypeList: [{type: 'day', text: '整体'}],
       inEditView: false,
       mgshowDialog: false,
       locale: '',
+      timeType: '',
       value2: '',
       modelValue: '',
       msg: '',
