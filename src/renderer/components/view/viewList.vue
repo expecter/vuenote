@@ -94,26 +94,22 @@ export default {
         var tlEvent = localStorage.tlEventName.split(',')
         for (let eventName in tlEvent) {
           var eventData = (localStorage[tlEvent[eventName]]).split(',')
+          var isAdd = false
           if (this.value === 'all') {
-            if (eventData[0]) {
-              this.tableData.push({
-                start: eventData[0],
-                end: eventData[1],
-                title: eventData[2],
-                eventType: eventData[3],
-                eventId: tlEvent[eventName]
-              })
-            }
-          } else {
-            if (eventData[0] && this.value === eventData[3]) {
-              this.tableData.push({
-                start: eventData[0],
-                end: eventData[1],
-                title: eventData[2],
-                eventType: eventData[3],
-                eventId: tlEvent[eventName]
-              })
-            }
+            isAdd = true
+          } else if (this.value === eventData[3]) {
+            isAdd = true
+          }
+          if (isAdd) {
+            var timeType = eventData[4] ? eventData[4] : 'datetimerange'
+            console.log(timeType)
+            this.tableData.push({
+              start: eventData[0],
+              end: eventData[1],
+              title: eventData[2],
+              eventType: eventData[3],
+              eventId: tlEvent[eventName]
+            })
           }
         }
       }

@@ -9,12 +9,44 @@
       <el-input v-model="form.name" placeholder="请输入内容" style="width: 100%;"></el-input>
     </el-form-item>
       <el-form-item label="时间类型">
-        <el-select v-model = 'timeType' placeholder="请选择活动区域" style="width: 100%;">
+        <el-select v-model = 'showRangeView' placeholder="请选择时间区域" style="width: 100%;" @change="getCouponSelected">
           <el-option  v-for="item in timeTypeList" :label="item.text" :value="item.type" :key="item.type"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间">
         <el-date-picker
+          v-if = "showRangeView === 'date'"
+          type="date"
+          v-model="modelValue1"
+          placeholder="选择日期">
+        </el-date-picker>
+        <el-date-picker
+          v-if = "showRangeView === 'week'"
+          type="week"
+          v-model="modelValue1"
+          format="yyyy 第 WW 周"
+          placeholder="选择周">
+        </el-date-picker>
+        <el-date-picker
+          v-if = "showRangeView === 'month'"
+          type="month"
+          v-model="modelValue1"
+          placeholder="选择月">
+        </el-date-picker>
+        <el-date-picker
+          v-if = "showRangeView === 'year'"
+          type="year"
+          v-model="modelValue1"
+          placeholder="选择年">
+        </el-date-picker>
+        <el-date-picker
+          v-if = "showRangeView === 'dates'"
+          type="dates"
+          v-model="modelValue1"
+          placeholder="选择一个或多个日期">
+        </el-date-picker>
+        <el-date-picker
+          v-if = "showRangeView === 'datetimerange'"
           v-model="modelValue"
           type="datetimerange"
           range-separator="至"
@@ -42,6 +74,7 @@
 import {formatDate} from '@/util/util'
 import localCache from '@/obj/localCache'
 import typeCache from '@/obj/typeCache'
+import timeType from '@/ref/timeType'
 let formsubmit = function () {
   this.$refs['form'].validate((valid) => {
     console.log('valid', valid)
@@ -53,11 +86,11 @@ let formsubmit = function () {
   })
 }
 let eventAdd = function () {
-  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale])
+  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
   this.mgshowDialog = false
 }
 let eventUpdate = function () {
-  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale])
+  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
   this.mgshowDialog = false
 }
 
@@ -70,14 +103,16 @@ export default {
   data () {
     return {
       localesList: typeCache.workData(),
-      timeTypeList: [{type: 'day', text: '整体'}],
+      timeTypeList: timeType.getTlTimeType(),
       inEditView: false,
       mgshowDialog: false,
       locale: '',
-      timeType: '',
       value2: '',
       modelValue: '',
+      modelValue1: '',
       msg: '',
+      needChangeValue: false,
+      showRangeView: timeType.getTlTimeType()[0].type, // 显示时间区域
       form: {
         name: ''
       },
@@ -95,54 +130,105 @@ export default {
       self.localesList = typeCache.workData()
     })
     self.localesList = typeCache.workData()
-    this.modelValue = [new Date(), new Date()]
+    // this.modelValue = [new Date(), new Date()]
     this.locale = self.localesList[0].type
   },
   watch: {
+    modelValue (val) {
+      if (val === '') {
+        this.value2 = ['', '']
+        return
+      }
+      this.value2 = [formatDate(val[0]), formatDate(val[1])]
+    },
+    modelValue1 (val) {
+      if (val === '') {
+        this.value2 = ['', '']
+        return
+      }
+      if (this.showRangeView === 'date') {
+        var endDate1 = new Date(new Date(val.toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+        this.value2 = [formatDate(val), formatDate(endDate1)]
+      }
+      if (this.showRangeView === 'week') {
+        this.value2 = [formatDate(val), '']
+      }
+      if (this.showRangeView === 'month') {
+        this.value2 = [formatDate(val), '']
+      }
+      if (this.showRangeView === 'year') {
+        this.value2 = [formatDate(val), '']
+      }
+      console.log('this.value2', this.value2)
+    },
+    showRangeView (val) {
+    },
     showDialog () {
-      console.log('showDialog', this.showDialog)
       this.mgshowDialog = true
+      this.showRangeView = 'date'
       if (this.eventId) {
         this.inEditView = true
         var eventData = (localStorage[this.eventId]).split(',')
-        this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
+        this.showRangeView = eventData[4] ? eventData[4] : 'datetimerange'
+        this.updateModelView([new Date(eventData[0]), new Date(eventData[1])])
         this.form.name = eventData[2]
         if (eventData.length > 3) {
           this.locale = eventData[3]
         }
+        return
       }
       var curTime = sessionStorage.getItem('selectedDate')
       if (curTime) {
         this.inEditView = false
         var startDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime())
-        var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-        var startTime = formatDate(new Date(startDate))
-        var endTime = formatDate(new Date(endDate))
-        this.modelValue = [new Date(startTime), new Date(endTime)]
+        // var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+        // var startTime = formatDate(new Date(startDate))
+        // var endTime = formatDate(new Date(endDate))
+        // this.modelValue = [new Date(startTime), new Date(endTime)]
         this.form.name = '加班'
         this.locale = '加班'
+        this.showRangeView = 'date'
+        this.updateModelView([startDate])
         sessionStorage.removeItem('selectedDate')
+        return
       }
-      if (!this.eventId && !curTime) {
-        var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
-        var endDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-        var startTime1 = formatDate(new Date(startDate1))
-        var endTime1 = formatDate(new Date(endDate1))
-        this.modelValue = [new Date(startTime1), new Date(endTime1)]
-        this.form.name = ''
-        this.locale = '工作'
-      }
-    },
-    modelValue (val) {
-      this.value2 = [formatDate(val[0]), formatDate(val[1])]
-      console.log('this.value2', this.value2)
+      var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
+      // var endDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+      // var startTime1 = formatDate(new Date(startDate1))
+      // var endTime1 = formatDate(new Date(endDate1))
+      // this.modelValue = [new Date(startTime1), new Date(endTime1)]
+      this.form.name = ''
+      this.showRangeView = 'date'
+      this.updateModelView([startDate1])
+      this.locale = '工作'
     }
   },
   methods: {
     eventAdd,
     eventDelete,
     eventUpdate,
-    formsubmit
+    formsubmit,
+    getCouponSelected () {
+      this.modelValue = ''
+      this.modelValue1 = ''
+    },
+    updateModelView (eventData) {
+      if (this.showRangeView === 'datetimerange') {
+        this.modelValue = eventData
+      }
+      if (this.showRangeView === 'date') {
+        this.modelValue1 = eventData[0]
+      }
+      if (this.showRangeView === 'week') {
+        this.modelValue1 = eventData[0]
+      }
+      if (this.showRangeView === 'month') {
+        this.modelValue1 = eventData[0]
+      }
+      if (this.showRangeView === 'year') {
+        this.modelValue1 = eventData[0]
+      }
+    }
   }
 }
 </script>
