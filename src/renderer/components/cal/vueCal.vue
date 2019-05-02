@@ -17,6 +17,7 @@
     :no-event-overlaps="true"
     :on-event-click="onEventClick"
     @cell-click="onCellClick"
+    @view-change="onViewChange"
     >
     </vue-cal>
     <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
@@ -45,6 +46,7 @@
         selectedDate: '',
         value: 'all',
         events: [],
+        changeView: 'week',
         options: []
       }
     },
@@ -80,10 +82,17 @@
         e.stopPropagation()
       },
       onCellClick (event) {
+        if (this.changeView !== 'week') {
+          return
+        }
+        console.log('event', event)
         // var curTime = event.getTime() / 1000
         sessionStorage.setItem('selectedDate', event.getTime() / 1000)
         this.eventId = null
         this.showDialog = this.showDialog + 1
+      },
+      onViewChange (event) {
+        this.changeView = event.view
       },
       addDateEvent (eventData, eventId) {
         this.events.push({

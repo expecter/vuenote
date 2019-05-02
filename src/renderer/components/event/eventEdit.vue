@@ -123,9 +123,9 @@ export default {
         name: ''
       },
       rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
-        ]
+        // name: [
+        //   { required: true, message: '请输入活动名称', trigger: 'blur' }
+        // ]
       }
     }
   },
@@ -209,17 +209,17 @@ export default {
         this.showRangeView = 'date'
         this.updateModelView([startTime])
         sessionStorage.removeItem('selectedDate')
-        return
+        // return
       }
-      var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
+      // var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
       // var endDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-      var startTime1 = util.formatDate(startDate1)
+      // var startTime1 = util.formatDate(startDate1)
       // var endTime1 = formatDate(new Date(endDate1))
       // this.modelValue = [new Date(startTime1), new Date(endTime1)]
-      this.form.name = ''
-      this.showRangeView = 'date'
-      this.updateModelView([startTime1])
-      this.locale = '工作'
+      // this.form.name = ''
+      // this.showRangeView = 'date'
+      // this.updateModelView([startTime1])
+      // this.locale = '工作'
     }
   },
   methods: {
