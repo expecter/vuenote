@@ -50,6 +50,7 @@
 <script>
 import eventEdit from '@/components/event/eventEdit'
 import typeCache from '@/obj/typeCache'
+import util from '@/util/util'
 export default {
   components: {
     eventEdit
@@ -102,9 +103,31 @@ export default {
           }
           if (isAdd) {
             var timeType = eventData[4] ? eventData[4] : 'datetimerange'
-            console.log(timeType)
+            var startTime = eventData[0]
+            var eventTime = ''
+            if (timeType === 'dates') {
+              var dates = (eventData[0]).split('|')
+              var tlStartTime = []
+              for (var index in dates) {
+                eventTime = new Date(dates[index])
+                tlStartTime.push(util.formatDate(eventTime, 'yyyy-MM-dd'))
+              }
+              startTime = tlStartTime.join(',')
+            }
+            if (timeType === 'date') {
+              eventTime = new Date(startTime)
+              startTime = util.formatDate(eventTime, 'yyyy-MM-dd')
+            }
+            if (timeType === 'month') {
+              eventTime = new Date(startTime)
+              startTime = util.formatDate(eventTime, 'yyyy-MM')
+            }
+            if (timeType === 'year') {
+              eventTime = new Date(startTime)
+              startTime = util.formatDate(eventTime, 'yyyy')
+            }
             this.tableData.push({
-              start: eventData[0],
+              start: startTime,
               end: eventData[1],
               title: eventData[2],
               eventType: eventData[3],

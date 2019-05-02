@@ -71,7 +71,7 @@
 </el-dialog>
 </template>
 <script>
-import {formatDate} from '@/util/util'
+import util from '@/util/util'
 import localCache from '@/obj/localCache'
 import typeCache from '@/obj/typeCache'
 import timeType from '@/ref/timeType'
@@ -97,6 +97,12 @@ let eventUpdate = function () {
 let eventDelete = function () {
   localCache.deleteEvent(this.eventId)
   this.mgshowDialog = false
+}
+let formateReg = function (val) {
+  if (!val || val === '') {
+    return ''
+  }
+  return util.formatDate(val)
 }
 
 export default {
@@ -135,29 +141,42 @@ export default {
   },
   watch: {
     modelValue (val) {
-      if (val === '') {
+      if (!val || val === '') {
         this.value2 = ['', '']
         return
       }
-      this.value2 = [formatDate(val[0]), formatDate(val[1])]
+      this.value2 = []
+      for (var index in val) {
+        this.value2.push(this.formateReg(val[index]))
+      }
     },
     modelValue1 (val) {
-      if (val === '') {
+      console.log('modelValue1', val)
+      if (!val || val === '') {
         this.value2 = ['', '']
+        return
+      }
+      if (this.showRangeView === 'dates') {
+        var dayArray = []
+        for (var index in val) {
+          if (val[index] !== '') {
+            dayArray.push(util.formatDate(val[index]))
+          }
+        }
+        this.value2 = [dayArray.join('|'), '']
         return
       }
       if (this.showRangeView === 'date') {
-        var endDate1 = new Date(new Date(val.toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-        this.value2 = [formatDate(val), formatDate(endDate1)]
+        this.value2 = [util.formatDate(val), '']
       }
       if (this.showRangeView === 'week') {
-        this.value2 = [formatDate(val), '']
+        this.value2 = [util.formatDate(val), '']
       }
       if (this.showRangeView === 'month') {
-        this.value2 = [formatDate(val), '']
+        this.value2 = [util.formatDate(val), '']
       }
       if (this.showRangeView === 'year') {
-        this.value2 = [formatDate(val), '']
+        this.value2 = [util.formatDate(val), '']
       }
       console.log('this.value2', this.value2)
     },
@@ -170,7 +189,7 @@ export default {
         this.inEditView = true
         var eventData = (localStorage[this.eventId]).split(',')
         this.showRangeView = eventData[4] ? eventData[4] : 'datetimerange'
-        this.updateModelView([new Date(eventData[0]), new Date(eventData[1])])
+        this.updateModelView(eventData)
         this.form.name = eventData[2]
         if (eventData.length > 3) {
           this.locale = eventData[3]
@@ -182,24 +201,24 @@ export default {
         this.inEditView = false
         var startDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime())
         // var endDate = new Date(new Date(new Date(curTime * 1000).toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-        // var startTime = formatDate(new Date(startDate))
+        var startTime = util.formatDate(startDate)
         // var endTime = formatDate(new Date(endDate))
         // this.modelValue = [new Date(startTime), new Date(endTime)]
         this.form.name = '加班'
         this.locale = '加班'
         this.showRangeView = 'date'
-        this.updateModelView([startDate])
+        this.updateModelView([startTime])
         sessionStorage.removeItem('selectedDate')
         return
       }
       var startDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime())
       // var endDate1 = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
-      // var startTime1 = formatDate(new Date(startDate1))
+      var startTime1 = util.formatDate(startDate1)
       // var endTime1 = formatDate(new Date(endDate1))
       // this.modelValue = [new Date(startTime1), new Date(endTime1)]
       this.form.name = ''
       this.showRangeView = 'date'
-      this.updateModelView([startDate1])
+      this.updateModelView([startTime1])
       this.locale = '工作'
     }
   },
@@ -208,25 +227,61 @@ export default {
     eventDelete,
     eventUpdate,
     formsubmit,
+    formateReg,
     getCouponSelected () {
-      this.modelValue = ''
-      this.modelValue1 = ''
+      // this.modelValue = ''
+      // this.modelValue1 = ''
+      if (this.showRangeView === 'datetimerange') {
+        if (this.modelValue === '' && this.modelValue1) {
+          if (this.modelValue1.constructor === Date) {
+            this.modelValue = [this.modelValue1, this.modelValue1]
+          }
+          if (this.modelValue1.constructor === Array) {
+            this.modelValue = [this.modelValue1[0], this.modelValue1[1]]
+          }
+        }
+        return
+      }
+      if (!this.modelValue1) {
+        return
+      }
+      if (this.showRangeView === 'dates') {
+        if (this.modelValue1.constructor === Date) {
+          this.modelValue1 = [this.modelValue1]
+        }
+        if (this.modelValue1.constructor === Array) {
+        }
+        return
+      }
+      // 除多个日期和区间以外的日期
+      if (this.modelValue1.constructor === Array) {
+        this.modelValue1 = this.modelValue1[0] ? this.modelValue1[0] : ''
+      }
     },
     updateModelView (eventData) {
       if (this.showRangeView === 'datetimerange') {
-        this.modelValue = eventData
+        this.modelValue = [new Date(eventData[0]), new Date(eventData[1])]
       }
       if (this.showRangeView === 'date') {
-        this.modelValue1 = eventData[0]
+        this.modelValue1 = new Date(eventData[0])
       }
       if (this.showRangeView === 'week') {
-        this.modelValue1 = eventData[0]
+        this.modelValue1 = new Date(eventData[0])
       }
       if (this.showRangeView === 'month') {
-        this.modelValue1 = eventData[0]
+        this.modelValue1 = new Date(eventData[0])
       }
       if (this.showRangeView === 'year') {
-        this.modelValue1 = eventData[0]
+        this.modelValue1 = new Date(eventData[0])
+      }
+      if (this.showRangeView === 'dates') {
+        var dates = (eventData[0]).split('|')
+        var tlStartTime = []
+        for (var index in dates) {
+          var eventTime = new Date(dates[index])
+          tlStartTime.push(eventTime)
+        }
+        this.modelValue1 = tlStartTime
       }
     }
   }

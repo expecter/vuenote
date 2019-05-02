@@ -24,7 +24,22 @@ function getCurDayZeroTime () {
   var start = new Date(new Date(new Date().toLocaleDateString()).getTime())
   return start
 }
-export {
+// 获取当晚12点时间
+function getNightTime (val) {
+  var startTime = new Date(val)
+  var eventTime = new Date(new Date(startTime.toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+  if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
+    eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
+  }
+  return formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+}
+function changeDateType (val) {
+  var eventTime = new Date(val)
+  return formatDate(eventTime, 'yyyy-MM-dd')
+}
+export default{
   formatDate,
+  getNightTime,
+  changeDateType,
   getCurDayZeroTime
 }

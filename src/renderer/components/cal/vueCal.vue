@@ -29,10 +29,7 @@
   import 'vue-cal/dist/vuecal.css'
   import eventEdit from '@/components/event/eventEdit'
   import typeCache from '@/obj/typeCache'
-  // import util from '@/components/util/util'
-  let padLeftZero = function (str) {
-    return ('00' + str).substr(str.length)
-  }
+  import util from '@/util/util'
   export default {
     name: 'electronui',
     components: {
@@ -88,24 +85,14 @@
         this.eventId = null
         this.showDialog = this.showDialog + 1
       },
-      formatDate (date, fmt) {
-        if (/(y+)/.test(fmt)) {
-          fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-        }
-        let o = {
-          'M+': date.getMonth() + 1,
-          'd+': date.getDate(),
-          'h+': date.getHours(),
-          'm+': date.getMinutes(),
-          's+': date.getSeconds()
-        }
-        for (let k in o) {
-          if (new RegExp(`(${k})`).test(fmt)) {
-            let str = o[k] + ''
-            fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str))
-          }
-        }
-        return fmt
+      addDateEvent (eventData, eventId) {
+        this.events.push({
+          start: eventData[0],
+          end: eventData[1],
+          title: eventData[2],
+          class: 'leisure',
+          eventId: eventId
+        })
       },
       updateVueCal () {
         this.events = []
@@ -114,39 +101,43 @@
           for (let eventName in tlEvent) {
             // console.log(eventName)
             var eventData = (localStorage[tlEvent[eventName]]).split(',')
-            var color = 'leisure'
-            if (eventData[3]) {
-              for (var index in typeCache.workData()) {
-                var item = typeCache.workData()[index]
-                if (item.type === eventData[3]) {
-                  color = item.color
-                }
+            // var color = 'leisure'
+            // if (eventData[3]) {
+            //   for (var index in typeCache.workData()) {
+            //     var item = typeCache.workData()[index]
+            //     if (item.type === eventData[3]) {
+            //       color = item.color
+            //     }
+            //   }
+            // }
+            var datetype = eventData[4] ? eventData[4] : ''
+            var endTime = ''
+            if (eventData[1] !== '') {
+              var eventTime = new Date(eventData[1])
+              if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
+                eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
               }
+              endTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
             }
-            var eventTime = new Date(eventData[1])
-            if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
-              eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
-            }
-            var endTime = this.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+            var needAdd = false
             if (this.value === 'all') {
-              if (eventData[0]) {
-                this.events.push({
-                  start: eventData[0],
-                  end: endTime,
-                  title: eventData[2],
-                  class: color,
-                  eventId: tlEvent[eventName]
-                })
-              }
+              needAdd = true
             } else {
-              if (eventData[0] && this.value === eventData[3]) {
-                this.events.push({
-                  start: eventData[0],
-                  end: endTime,
-                  title: eventData[2],
-                  class: color,
-                  eventId: tlEvent[eventName]
-                })
+              if (this.value === eventData[3]) {
+                needAdd = true
+              }
+            }
+            if (needAdd) {
+              if (datetype === 'dates') {
+                var dates = (eventData[0]).split('|')
+                for (var index in dates) {
+                  this.addDateEvent([dates[index], util.getNightTime(dates[index]), eventData[2]], tlEvent[eventName])
+                }
+              } else {
+                if (endTime === '') {
+                  endTime = util.getNightTime(eventData[0])
+                }
+                this.addDateEvent([eventData[0], endTime, eventData[2]], tlEvent[eventName])
               }
             }
           }
