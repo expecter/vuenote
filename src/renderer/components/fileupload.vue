@@ -52,6 +52,7 @@ export default {
       const fs = require('fs')
       fs.readFile(file.raw.path, 'utf-8', (err, dataStr) => {
         if (err) throw err
+        localStorage.clear()
         var jsonObj = JSON.parse(dataStr)
         for (let index in jsonObj) {
           var objData = jsonObj[index]

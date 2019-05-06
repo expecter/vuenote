@@ -13,7 +13,7 @@
     :events="events"
     locale="zh-cn"
     style="height: 400px"
-    :disable-views="['years','day']"
+    :disable-views="['years']"
     :no-event-overlaps="true"
     :on-event-click="onEventClick"
     @cell-click="onCellClick"
@@ -95,6 +95,7 @@
         this.changeView = event.view
       },
       addDateEvent (eventData, eventId) {
+        console.log('eventData', eventData, eventId)
         this.events.push({
           start: eventData[0],
           end: eventData[1],
@@ -135,6 +136,9 @@
               if (this.value === eventData[3]) {
                 needAdd = true
               }
+            }
+            if (eventData[0] === '') {
+              needAdd = false
             }
             if (needAdd) {
               if (datetype === 'dates') {
