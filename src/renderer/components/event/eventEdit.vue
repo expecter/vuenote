@@ -242,6 +242,10 @@ export default {
         }
         return
       }
+      if (this.showRangeView === 'untime') {
+        this.modelValue1 = ''
+        return
+      }
       if (!this.modelValue1) {
         return
       }
