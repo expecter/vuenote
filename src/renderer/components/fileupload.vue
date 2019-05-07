@@ -48,7 +48,6 @@ export default {
       return this.$confirm(`确定移除${file.name}？`)
     },
     handleAvatarSuccess (res, file) {
-      console.log('hahahah', file)
       const fs = require('fs')
       fs.readFile(file.raw.path, 'utf-8', (err, dataStr) => {
         if (err) throw err
@@ -56,7 +55,6 @@ export default {
         var jsonObj = JSON.parse(dataStr)
         for (let index in jsonObj) {
           var objData = jsonObj[index]
-          console.log(objData)
           if (objData[3]) {
             typeCache.addWorkData(objData[3])
           }

@@ -85,7 +85,6 @@
         if (this.changeView !== 'week') {
           return
         }
-        console.log('event', event)
         // var curTime = event.getTime() / 1000
         sessionStorage.setItem('selectedDate', event.getTime() / 1000)
         this.eventId = null
@@ -95,7 +94,6 @@
         this.changeView = event.view
       },
       addDateEvent (eventData, eventId) {
-        console.log('eventData', eventData, eventId)
         this.events.push({
           start: eventData[0],
           end: eventData[1],
@@ -155,14 +153,6 @@
             }
           }
         }
-        // this.events.push({
-        //   start: '2019-04-19 00:00',
-        //   end: '2019-04-23 00:00',
-        //   title: '哈哈哈哈',
-        //   // content: '<i class="v-icon material-icons">local_hospital</i>',
-        //   class: 'health'
-        // })
-        console.log(this.events)
       }
     }
   }

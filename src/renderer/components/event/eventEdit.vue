@@ -151,7 +151,6 @@ export default {
       }
     },
     modelValue1 (val) {
-      console.log('modelValue1', val)
       if (!val || val === '') {
         this.value2 = ['', '']
         return
@@ -178,7 +177,6 @@ export default {
       if (this.showRangeView === 'year') {
         this.value2 = [util.formatDate(val), '']
       }
-      console.log('this.value2', this.value2)
     },
     showRangeView (val) {
     },
