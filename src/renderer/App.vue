@@ -46,7 +46,6 @@
   // import {formatDate} from '@/util/util'
   import FileSaver from 'file-saver'
   import localCache from '@/obj/localCache'
-  import {myFun} from '@/obj/eventObj'
   import XLSX from 'xlsx'
   let addEventPanel = function () {
     this.showDialog = this.showDialog + 1
@@ -173,7 +172,7 @@
       }
     },
     created: function () {
-      console.log(myFun())
+      // console.log(myFun())
       // console.log('AAAAAAA', util.getCurDayZeroTime())
     },
     methods: {

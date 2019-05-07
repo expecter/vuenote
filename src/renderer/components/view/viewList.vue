@@ -1,5 +1,7 @@
 <template>
 <div>
+  <el-container>
+  <el-header height = "20px">
   <el-select v-model="value" placeholder="请选择">
     <el-option
       v-for="item in options"
@@ -8,10 +10,22 @@
       :value="item.type">
     </el-option>
   </el-select>
+  <el-select v-model="value2" placeholder="请选择">
+    <el-option
+      v-for="item in options2"
+      :key="item.val"
+      :label="item.type"
+      :value="item.val">
+    </el-option>
+  </el-select>
+  </el-header>
+  </el-container>
+  <el-container>
+  <el-main>
 <el-table
     :data="tableData"
     style="width: 100%"
-    height = "400px"
+    height = "380px"
     :default-sort = "{prop: 'start', order: 'descending'}"
     >
     <el-table-column
@@ -44,6 +58,8 @@
     </el-table-column>
   </el-table>
   <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
+  </el-main>
+  </el-container>
 </div>
 </template>
 
@@ -59,7 +75,14 @@ export default {
     return {
       tableData: [],
       options: [],
-      value: 'all',
+      options2: [
+        {type: '所有', val: 'all'},
+        {type: '当天', val: 'today'},
+        {type: '过期', val: 'expire'},
+        {type: '未过期', val: 'unexpire'},
+        {type: '未定期', val: 'untime'}],
+      value: '所有',
+      value2: 'all',
       showDialog: 0,
       eventId: ''
     }
@@ -78,11 +101,14 @@ export default {
   watch: {
     value () {
       this.updateVueCal()
+    },
+    value2 () {
+      this.updateVueCal()
     }
   },
   methods: {
     updateVueType: function () {
-      this.options = [{type: 'all'}]
+      this.options = [{type: '所有'}]
       this.options = this.options.concat(typeCache.workData())
     },
     handleClick: function (row) {
@@ -96,14 +122,20 @@ export default {
         for (let eventName in tlEvent) {
           var eventData = (localStorage[tlEvent[eventName]]).split(',')
           var isAdd = false
-          if (this.value === 'all') {
+          if (this.value === '所有') {
             isAdd = true
           } else if (this.value === eventData[3]) {
             isAdd = true
           }
           if (isAdd) {
+            // 根据所属时间区分
+            var addTime = false
+            if (this.value2 === 'all') {
+              addTime = true
+            }
             var timeType = eventData[4] ? eventData[4] : 'datetimerange'
             var startTime = eventData[0]
+            var endTime = eventData[1]
             var eventTime = ''
             if (timeType === 'dates') {
               var dates = (eventData[0]).split('|')
@@ -126,13 +158,15 @@ export default {
               eventTime = new Date(startTime)
               startTime = util.formatDate(eventTime, 'yyyy')
             }
-            this.tableData.push({
-              start: startTime,
-              end: eventData[1],
-              title: eventData[2],
-              eventType: eventData[3],
-              eventId: tlEvent[eventName]
-            })
+            if (addTime) {
+              this.tableData.push({
+                start: startTime,
+                end: endTime,
+                title: eventData[2],
+                eventType: eventData[3],
+                eventId: tlEvent[eventName]
+              })
+            }
           }
         }
       }

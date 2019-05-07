@@ -37,9 +37,25 @@ function changeDateType (val) {
   var eventTime = new Date(val)
   return formatDate(eventTime, 'yyyy-MM-dd')
 }
+function getCountDays (date) {
+  var newDate = new Date(date.valueOf())
+  var curMonth = newDate.getMonth()
+  newDate.setMonth(curMonth + 1)
+  newDate.setDate(0)
+  return newDate.getDate()
+}
+function getYearDays (year) {
+  if (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)) {
+    return 366
+  } else {
+    return 365
+  }
+}
 export default{
   formatDate,
   getNightTime,
   changeDateType,
-  getCurDayZeroTime
+  getCurDayZeroTime,
+  getCountDays,
+  getYearDays
 }
