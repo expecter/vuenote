@@ -137,9 +137,9 @@ export default {
             var startTime = eventData[0]
             var endTime = eventData[1]
             var eventTime = ''
+            var tlStartTime = []
             if (timeType === 'dates') {
               var dates = (eventData[0]).split('|')
-              var tlStartTime = []
               for (var index in dates) {
                 eventTime = new Date(dates[index])
                 tlStartTime.push(util.formatDate(eventTime, 'yyyy-MM-dd'))
@@ -148,15 +148,45 @@ export default {
             }
             if (timeType === 'date') {
               eventTime = new Date(startTime)
-              startTime = util.formatDate(eventTime, 'yyyy-MM-dd')
+              startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+              endTime = util.getNightTime(startTime)
             }
             if (timeType === 'month') {
               eventTime = new Date(startTime)
-              startTime = util.formatDate(eventTime, 'yyyy-MM')
+              startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+              endTime = util.getNightTime(startTime, 'month')
             }
             if (timeType === 'year') {
               eventTime = new Date(startTime)
-              startTime = util.formatDate(eventTime, 'yyyy')
+              startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+              endTime = util.getNightTime(startTime, 'year')
+            }
+            if (endTime !== '') {
+              endTime = new Date(endTime)
+              if (endTime.getHours() === 0 && endTime.getMinutes() === 0) {
+                endTime = new Date((endTime.getTime() / 1000 - 60) * 1000)
+              }
+              endTime = util.formatDate(endTime, 'yyyy-MM-dd hh:mm')
+            }
+            if (timeType !== 'dates') {
+              var startTimeStamp = new Date(startTime).getTime()
+              var endTimeStamp = new Date(endTime).getTime()
+              var curTime = new Date().getTime()
+              if (this.value2 === 'today') {
+                if (startTimeStamp <= curTime && endTimeStamp >= curTime) {
+                  addTime = true
+                }
+              }
+              if (this.value2 === 'expire') {
+                if (endTimeStamp <= curTime) {
+                  addTime = true
+                }
+              }
+              if (this.value2 === 'unexpire') {
+                if (endTimeStamp >= curTime) {
+                  addTime = true
+                }
+              }
             }
             if (addTime) {
               this.tableData.push({

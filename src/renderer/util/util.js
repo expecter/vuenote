@@ -25,9 +25,20 @@ function getCurDayZeroTime () {
   return start
 }
 // 获取当晚12点时间
-function getNightTime (val) {
+function getNightTime (val, type = 'day') {
   var startTime = new Date(val)
-  var eventTime = new Date(new Date(startTime.toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
+  var overTime = 0
+  if (type === 'day') {
+    overTime = 24
+  }
+  if (type === 'month') {
+    overTime = this.getCountDays(val) * 24
+  }
+  if (type === 'year') {
+    var curYear = new Date(val)
+    overTime = this.getYearDays(curYear.getFullYear()) * 24
+  }
+  var eventTime = new Date(new Date(startTime.toLocaleDateString()).getTime() + overTime * 60 * 60 * 1000)
   if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
     eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
   }
@@ -38,7 +49,7 @@ function changeDateType (val) {
   return formatDate(eventTime, 'yyyy-MM-dd')
 }
 function getCountDays (date) {
-  var newDate = new Date(date.valueOf())
+  var newDate = new Date(date)
   var curMonth = newDate.getMonth()
   newDate.setMonth(curMonth + 1)
   newDate.setDate(0)
@@ -51,11 +62,20 @@ function getYearDays (year) {
     return 365
   }
 }
+function getLastNightTime (date) {
+  var newDate = new Date(date)
+  if (newDate.getHours() === 0 && newDate.getMinutes() === 0) {
+    newDate = new Date((newDate.getTime() / 1000 - 60) * 1000)
+    return formatDate(newDate, 'yyyy-MM-dd hh:mm')
+  }
+  return date
+}
 export default{
   formatDate,
   getNightTime,
   changeDateType,
   getCurDayZeroTime,
   getCountDays,
+  getLastNightTime,
   getYearDays
 }
