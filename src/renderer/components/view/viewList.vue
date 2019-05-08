@@ -44,10 +44,10 @@
       prop="title"
       label="事件">
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       prop="eventType"
       label="类型">
-    </el-table-column>
+    </el-table-column> -->
      <el-table-column
       fixed="right"
       label="操作"
