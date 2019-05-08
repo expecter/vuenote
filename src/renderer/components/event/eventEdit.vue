@@ -86,11 +86,11 @@ let formsubmit = function () {
   })
 }
 let eventAdd = function () {
-  localCache.addEvent([this.value2[0], util.getLastNightTime(this.value2[1]), this.form.name, this.locale, this.showRangeView])
+  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
   this.mgshowDialog = false
 }
 let eventUpdate = function () {
-  localCache.updateEvent(this.eventId, [this.value2[0], util.getLastNightTime(this.value2[1]), this.form.name, this.locale, this.showRangeView])
+  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
   this.mgshowDialog = false
 }
 

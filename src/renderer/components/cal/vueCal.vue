@@ -142,13 +142,18 @@
               if (datetype === 'dates') {
                 var dates = (eventData[0]).split('|')
                 for (var index in dates) {
-                  this.addDateEvent([dates[index], util.getNightTime(dates[index]), eventData[2]], tlEvent[eventName])
+                  var nightTime = util.getNightTime(dates[index])
+                  var lastNightTime = util.getLastNightTime(nightTime)
+                  lastNightTime = util.formatDate(lastNightTime, 'yyyy-MM-dd hh:mm')
+                  this.addDateEvent([dates[index], lastNightTime, eventData[2]], tlEvent[eventName])
                 }
               } else {
                 if (endTime === '') {
                   endTime = util.getNightTime(eventData[0])
                 }
-                this.addDateEvent([eventData[0], endTime, eventData[2]], tlEvent[eventName])
+                var lastNightTime1 = util.getLastNightTime(endTime)
+                lastNightTime1 = util.formatDate(lastNightTime1, 'yyyy-MM-dd hh:mm')
+                this.addDateEvent([eventData[0], lastNightTime1, eventData[2]], tlEvent[eventName])
               }
             }
           }

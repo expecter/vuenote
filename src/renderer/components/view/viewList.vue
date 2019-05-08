@@ -150,16 +150,19 @@ export default {
               eventTime = new Date(startTime)
               startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
               endTime = util.getNightTime(startTime)
+              endTime = util.formatDate(endTime, 'yyyy-MM-dd hh:mm')
             }
             if (timeType === 'month') {
               eventTime = new Date(startTime)
               startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
               endTime = util.getNightTime(startTime, 'month')
+              endTime = util.formatDate(endTime, 'yyyy-MM-dd hh:mm')
             }
             if (timeType === 'year') {
               eventTime = new Date(startTime)
               startTime = util.formatDate(eventTime, 'yyyy-MM-dd hh:mm')
               endTime = util.getNightTime(startTime, 'year')
+              endTime = util.formatDate(endTime, 'yyyy-MM-dd hh:mm')
             }
             if (endTime !== '') {
               endTime = new Date(endTime)

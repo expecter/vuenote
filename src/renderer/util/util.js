@@ -39,11 +39,9 @@ function getNightTime (val, type = 'day') {
     overTime = this.getYearDays(curYear.getFullYear()) * 24
   }
   var eventTime = new Date(new Date(startTime.toLocaleDateString()).getTime() + overTime * 60 * 60 * 1000)
-  if (eventTime.getHours() === 0 && eventTime.getMinutes() === 0) {
-    eventTime = new Date((eventTime.getTime() / 1000 - 60) * 1000)
-  }
-  return formatDate(eventTime, 'yyyy-MM-dd hh:mm')
+  return eventTime
 }
+
 function changeDateType (val) {
   var eventTime = new Date(val)
   return formatDate(eventTime, 'yyyy-MM-dd')
@@ -65,10 +63,9 @@ function getYearDays (year) {
 function getLastNightTime (date) {
   var newDate = new Date(date)
   if (newDate.getHours() === 0 && newDate.getMinutes() === 0) {
-    newDate = new Date((newDate.getTime() / 1000 - 60) * 1000)
-    return formatDate(newDate, 'yyyy-MM-dd hh:mm')
+    return new Date((newDate.getTime() / 1000 - 60) * 1000)
   }
-  return date
+  return new Date(date)
 }
 export default{
   formatDate,
