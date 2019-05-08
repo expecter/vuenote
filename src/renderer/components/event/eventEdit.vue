@@ -65,6 +65,7 @@
         <el-button @click="formsubmit" v-show = "!inEditView">新增</el-button>
         <el-button @click="eventUpdate" v-show = "inEditView">编辑</el-button>
         <el-button @click="eventDelete" v-show = "inEditView">删除</el-button>
+        <el-button @click="eventUpdateDone">{{doneText}}</el-button>
       </el-form-item>      
     </el-form>
   </div>
@@ -86,11 +87,11 @@ let formsubmit = function () {
   })
 }
 let eventAdd = function () {
-  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
+  localCache.addEvent([this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView, this.isdone])
   this.mgshowDialog = false
 }
 let eventUpdate = function () {
-  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView])
+  localCache.updateEvent(this.eventId, [this.value2[0], this.value2[1], this.form.name, this.locale, this.showRangeView, this.isdone])
   this.mgshowDialog = false
 }
 
@@ -98,6 +99,17 @@ let eventDelete = function () {
   localCache.deleteEvent(this.eventId)
   this.mgshowDialog = false
 }
+
+let eventUpdateDone = function () {
+  if (this.isdone === 'false') {
+    this.isdone = 'true'
+    this.doneText = '完成'
+  } else {
+    this.isdone = 'false'
+    this.doneText = '未完成'
+  }
+}
+
 let formateReg = function (val) {
   if (!val || val === '') {
     return ''
@@ -117,6 +129,8 @@ export default {
       modelValue: '',
       modelValue1: '',
       msg: '',
+      isdone: 'false',
+      doneText: '未完成',
       needChangeValue: false,
       showRangeView: timeType.getTlTimeType()[0].type, // 显示时间区域
       form: {
@@ -192,6 +206,12 @@ export default {
         if (eventData.length > 3) {
           this.locale = eventData[3]
         }
+        this.isdone = eventData[5]
+        if (this.isdone === 'true') {
+          this.doneText = '完成'
+        } else {
+          this.doneText = '未完成'
+        }
         return
       }
       var curTime = sessionStorage.getItem('selectedDate')
@@ -226,6 +246,7 @@ export default {
     eventUpdate,
     formsubmit,
     formateReg,
+    eventUpdateDone,
     getCouponSelected () {
       // this.modelValue = ''
       // this.modelValue1 = ''

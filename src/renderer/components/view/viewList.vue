@@ -56,6 +56,11 @@
     <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
     </template>
     </el-table-column>
+    <el-table-column
+      prop="isdone"
+      sortable
+      label="是否完成">
+    </el-table-column>
   </el-table>
   <eventEdit :showDialog = showDialog :eventId=eventId></eventEdit>
   </el-main>
@@ -194,13 +199,18 @@ export default {
             if (timeType === 'untime' && this.value2 === 'untime') {
               addTime = true
             }
+            var isdone = '未完成'
+            if (eventData[5] === 'true') {
+              isdone = '完成'
+            }
             if (addTime) {
               this.tableData.push({
                 start: startTime,
                 end: endTime,
                 title: eventData[2],
                 eventType: eventData[3],
-                eventId: tlEvent[eventName]
+                eventId: tlEvent[eventName],
+                isdone: isdone
               })
             }
           }
