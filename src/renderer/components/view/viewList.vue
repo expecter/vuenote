@@ -191,6 +191,9 @@ export default {
                 }
               }
             }
+            if (timeType === 'untime' && this.value2 === 'untime') {
+              addTime = true
+            }
             if (addTime) {
               this.tableData.push({
                 start: startTime,
